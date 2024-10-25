@@ -1,9 +1,7 @@
 package com.example.ot.service;
 
-<<<<<<< HEAD
 import org.springframework.stereotype.Service;
 
-=======
 import com.example.ot.controller.form.UserForm;
 import com.example.ot.repository.UserRepository;
 import com.example.ot.repository.entity.User;
@@ -14,7 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
->>>>>>> 80c237b3e7b3488f16f6431bd802e60f61c82644
+import static com.example.ot.utils.CipherUtil.encrypt;
+
 @Service
 public class UserService {
 
@@ -24,10 +23,12 @@ public class UserService {
     /*
      * ユーザー情取得処理(ログイン時に使用)
      */
-    public List<UserForm> findUser(UserForm userForm) {
+    public List<UserForm> findUser(UserForm userForm) throws Exception {
+        //パスワードの暗号化
+        String encryptPassword = encrypt(userForm.getPassword());
         List<User> results = taskRepository.findAllByAccountAndPassword(
                 userForm.getAccount(),
-                userForm.getPassword());
+                encryptPassword);
         List<UserForm> users = setUserForm(results);
         return users;
     }
@@ -47,6 +48,10 @@ public class UserService {
             User.setName(result.getName());
             User.setBranchId(result.getBranchId());
             User.setDepartmentId(result.getDepartmentId());
+            User.setIsStopped(result.getIsStopped());
+            User.setCreatedDate(result.getCreatedDate());
+            User.setUpdatedDate(result.getUpdatedDate());
+
             users.add(User);
         }
         return users;

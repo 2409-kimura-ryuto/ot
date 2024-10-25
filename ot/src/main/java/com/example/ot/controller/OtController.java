@@ -58,7 +58,7 @@ public class OtController {
      * ログイン処理
      */
     @PostMapping("/login")
-    public ModelAndView login(@Validated @ModelAttribute("userForm") UserForm userForm, BindingResult result) {
+    public ModelAndView login(@Validated @ModelAttribute("userForm") UserForm userForm, BindingResult result) throws Exception {
         ModelAndView mav = new ModelAndView();
 
         //バリデーション処理
@@ -75,7 +75,7 @@ public class OtController {
 
         List<UserForm> userData = userService.findUser(userForm);
 
-        if ((userData == null) || (userData.getIsStopped() == 1)) {
+        if ((userData.size() == 0) || (userData.get(0).getIsStopped() == 1)) {
             errorList.add("ログインに失敗しました");
             mav.addObject("validationError", errorList);
             mav.setViewName("/login");
@@ -92,6 +92,17 @@ public class OtController {
         //top画面にリダイレクト 今はログイン
         return new ModelAndView("redirect:/login");
     }
+
+    /*
+     * ログアウト処理
+     */
+    @GetMapping("logout")
+    public ModelAndView logout() {
+        // セッションの無効化
+        session.invalidate();
+        return new ModelAndView("redirect:/login");
+    }
+
     /*
      * ホーム画面表示
      */

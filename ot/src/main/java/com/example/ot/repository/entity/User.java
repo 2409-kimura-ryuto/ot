@@ -1,9 +1,8 @@
 package com.example.ot.repository.entity;
 
-<<<<<<< HEAD
+
 import jakarta.persistence.Entity;
 
-=======
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import java.util.Date;
 @Table(name = "users")
 @Getter
 @Setter
->>>>>>> 80c237b3e7b3488f16f6431bd802e60f61c82644
 public class User {
     @Id
     @Column
