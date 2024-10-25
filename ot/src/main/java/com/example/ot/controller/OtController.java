@@ -1,7 +1,6 @@
 package com.example.ot.controller;
 
-import jakarta.servlet.http.HttpSession;
-
+import com.example.ot.controller.form.MessageForm;
 import com.example.ot.controller.form.UserCommentForm;
 import com.example.ot.controller.form.UserMessageForm;
 import com.example.ot.controller.form.UserForm;
@@ -18,6 +17,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -105,6 +106,17 @@ public class OtController {
         mav.addObject("messages", messages);
         mav.addObject("comments", comments);
 
+        return mav;
+    }
+    /*
+     * 新規投稿画面表示
+     */
+    @GetMapping("/new")
+    public ModelAndView newMessage() {
+        ModelAndView mav = new ModelAndView();
+        MessageForm messageForm = new MessageForm();
+        mav.addObject("messageForm", messageForm);
+        mav.setViewName("/new");
         return mav;
     }
 }
