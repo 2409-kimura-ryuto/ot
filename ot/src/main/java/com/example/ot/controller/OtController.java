@@ -11,6 +11,7 @@ import com.example.ot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -96,11 +97,18 @@ public class OtController {
      * ホーム画面表示
      */
     @GetMapping("/{start}-{end}-{category}")
-    public ModelAndView top() {
+    public ModelAndView top(@RequestParam("start") String start,
+                            @RequestParam("end") String end,
+                            @RequestParam("category") String category) {
+
+        // セッションからログインユーザ情報を取得する
+        // ログインユーザが総務人事部の場合か判定 & フラグの設定
+        // ログインユーザのIDを事前に決めておく必要あり→要相談
+
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/top");
 
-        List<UserMessageForm> messages = messageService.findAllUserMessage();
+        List<UserMessageForm> messages = messageService.findAllUserMessage(start, end, category);
         List<UserCommentForm> comments = commentService.findAllUserComment();
 
         mav.addObject("messages", messages);
