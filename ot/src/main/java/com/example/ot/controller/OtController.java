@@ -10,13 +10,11 @@ import com.example.ot.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -128,11 +126,10 @@ public class OtController {
     /*
      * 投稿登録処理
      */
-    @PostMapping("/add")
+    @PostMapping("/add-Message")
     public ModelAndView addMessage(@Validated @ModelAttribute("messageForm") MessageForm messageForm, BindingResult result) {
         ModelAndView mav = new ModelAndView();
         //バリデーション処理
-        List<String> errorList = new ArrayList<String>();
         if (result.hasErrors()) {
             mav.setViewName("/new");
             return mav;
@@ -141,4 +138,16 @@ public class OtController {
         //topが画面が実装でき次第topにリダイレクトするように変更
         return new ModelAndView("redirect:/new");
     }
+
+    /*
+     * 投稿削除処理
+     */
+    @DeleteMapping("/delete-message/{id}")
+    public ModelAndView deleteMessage(@PathVariable Integer id) {
+        // 投稿をテーブルから削除
+        messageService.deleteMessage(id);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/top");
+    }
+
 }
