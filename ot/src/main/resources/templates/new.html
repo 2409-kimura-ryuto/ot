@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
-    <script th:src="@{/js/script.js}"></script>
     <title>新規投稿</title>
 </head>
 <body>
@@ -11,7 +10,7 @@
     <h2>新規投稿</h2>
 </div>
 <div class="main-contents">
-    <form method="post" action="/add" th:object="${messageForm}">
+    <form method="post" action="/add-message" th:object="${messageForm}">
         <div class="form-area">
             <!-- エラーメッセージの表示 -->
             <div class="error-messages">
@@ -21,11 +20,26 @@
                     </div>
                 </ul>
             </div>
-            <label>投稿内容</label>
-            <textarea class="tweet-box" th:field="*{category}" size="20" maxlength="200" /></textarea><br/>
-            <textarea class="tweet-box" th:field="*{title}" size="20" maxlength="200" /></textarea><br/>
-            <textarea class="tweet-box" th:field="*{text}" size="20" maxlength="200" /></textarea><br/>
+            <label for="title">件名</label><br/>
+            <textarea class="tweet-box" th:field="*{title}" size="50" maxlength="200" id="title" /></textarea><br/>
+            <!-- 件名、本文、カテゴリーそれぞれの下にエラーメッセージ表示 -->
+            <div class="errorMessages">
+                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span><br/>
+            </div>
+            <label for="text">本文</label><br/>
+            <textarea class="tweet-box" th:field="*{text}" size="50" maxlength="1500" id="text" /></textarea><br/>
+            <div class="errorMessages">
+                <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></span><br/>
+            </div>
+            <label for="category">カテゴリー</label><br/>
+            <textarea class="tweet-box" th:field="*{category}" size="50" maxlength="200" id="category" /></textarea><br/>
+            <div class="errorMessages">
+                <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span><br/>
+            </div>
             <input type="submit" value="投稿" />
+            <!-- セッションに格納したログインユーザーのIDをcontrollerに渡す
+            <input type="hidden" name="userId" value="${user.id}" />
+            -->
         </div>
     </form>
 </div>
@@ -34,5 +48,6 @@
         <input type="submit" value="戻る" />
     </form>
 </div>
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

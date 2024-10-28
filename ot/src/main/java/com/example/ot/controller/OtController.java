@@ -9,13 +9,11 @@ import com.example.ot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -50,15 +48,13 @@ public class OtController {
         mav.setViewName("/login");
         // 準備した空のFormを保管
         mav.addObject("userForm", userForm);
-       // タスクデータオブジェクトを保管
-//        mav.addObject("tasks", TasksData);
         return mav;
     }
     /*
      * ログイン処理
      */
     @PostMapping("/login")
-    public ModelAndView login(@Validated @ModelAttribute("userForm") UserForm userForm, BindingResult result, RedirectAttributes redirectAttributes) throws Exception {
+    public ModelAndView login(@Validated @ModelAttribute("userForm") UserForm userForm, BindingResult result) throws Exception {
         ModelAndView mav = new ModelAndView();
 
         //バリデーション処理
@@ -87,7 +83,7 @@ public class OtController {
 
         //ログイン情報をセッションに格納
         session.setAttribute("user", userData);
-        //top画面にリダイレクト 今はログイン
+        // 空の絞り込み条件をセット
         FilterForm filterForm = new FilterForm();
         session.setAttribute("filterForm", filterForm);
         mav.setViewName("redirect:/top");
@@ -128,6 +124,7 @@ public class OtController {
 
         return mav;
     }
+
     /*
      * 新規投稿画面表示
      */
@@ -139,4 +136,32 @@ public class OtController {
         mav.setViewName("/new");
         return mav;
     }
+
+    /*
+     * 投稿登録処理
+     */
+    @PostMapping("/add-Message")
+    public ModelAndView addMessage(@Validated @ModelAttribute("messageForm") MessageForm messageForm, BindingResult result) {
+        ModelAndView mav = new ModelAndView();
+        //バリデーション処理
+        if (result.hasErrors()) {
+            mav.setViewName("/new");
+            return mav;
+        }
+        messageService.saveMessage(messageForm);
+        //topが画面が実装でき次第topにリダイレクトするように変更
+        return new ModelAndView("redirect:/new");
+    }
+
+    /*
+     * 投稿削除処理
+     */
+    @DeleteMapping("/delete-message/{id}")
+    public ModelAndView deleteMessage(@PathVariable Integer id) {
+        // 投稿をテーブルから削除
+        messageService.deleteMessage(id);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/top");
+    }
+
 }
