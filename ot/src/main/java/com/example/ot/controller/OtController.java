@@ -50,8 +50,6 @@ public class OtController {
         mav.setViewName("/login");
         // 準備した空のFormを保管
         mav.addObject("userForm", userForm);
-       // タスクデータオブジェクトを保管
-//        mav.addObject("tasks", TasksData);
         return mav;
     }
     /*
@@ -82,14 +80,9 @@ public class OtController {
             return mav;
         }
 
-        // 画面遷移先を指定
-        mav.setViewName("/login");
-
-        // 投稿データオブジェクトを保管
-//        mav.addObject("user", userData);
         //ログイン情報をセッションに格納
         session.setAttribute("user", userData);
-        //top画面にリダイレクト 今はログイン
+        //topが画面が実装でき次第topにリダイレクトするように変更
         return new ModelAndView("redirect:/login");
     }
 
@@ -119,6 +112,7 @@ public class OtController {
 
         return mav;
     }
+
     /*
      * 新規投稿画面表示
      */
@@ -129,5 +123,22 @@ public class OtController {
         mav.addObject("messageForm", messageForm);
         mav.setViewName("/new");
         return mav;
+    }
+
+    /*
+     * 投稿登録処理
+     */
+    @PostMapping("/add")
+    public ModelAndView addMessage(@Validated @ModelAttribute("messageForm") MessageForm messageForm, BindingResult result) {
+        ModelAndView mav = new ModelAndView();
+        //バリデーション処理
+        List<String> errorList = new ArrayList<String>();
+        if (result.hasErrors()) {
+            mav.setViewName("/new");
+            return mav;
+        }
+        messageService.saveMessage(messageForm);
+        //topが画面が実装でき次第topにリダイレクトするように変更
+        return new ModelAndView("redirect:/new");
     }
 }

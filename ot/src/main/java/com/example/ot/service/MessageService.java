@@ -1,7 +1,9 @@
 package com.example.ot.service;
 
+import com.example.ot.controller.form.MessageForm;
 import com.example.ot.controller.form.UserMessageForm;
 import com.example.ot.repository.MessageRepository;
+import com.example.ot.repository.entity.Message;
 import com.example.ot.repository.entity.UserMessage;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +38,22 @@ public class MessageService {
             messages.add(message);
         }
         return messages;
+    }
+
+    /*
+     * レコード追加
+     */
+    public void saveMessage(MessageForm reqMessage) {
+        Message saveMessage = setMessagesEntity(reqMessage);
+        messageRepository.save(saveMessage);
+    }
+
+    /*
+     *リストから取得した情報をentityに設定
+     */
+    private Message setMessagesEntity(MessageForm reqMessage) {
+        Message message = new Message();
+        BeanUtils.copyProperties(reqMessage, message);
+        return message;
     }
 }

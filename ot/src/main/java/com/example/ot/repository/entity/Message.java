@@ -25,7 +25,7 @@ public class Message {
     @Column
     private String category;
 
-    @Column
+    @Column(name="user_id")
     private int userId;
 
     @Column(name="created_date", insertable = true, updatable = false)
