@@ -23,7 +23,7 @@ public class UserService {
     /*
      * ユーザー情取得処理(ログイン時に使用)
      */
-    public List<UserForm> findUser(UserForm userForm) throws Exception {
+    public UserForm findUser(UserForm userForm) throws Exception {
         //パスワードの暗号化
         /* for test
         String encryptPassword = encrypt(userForm.getPassword());
@@ -32,34 +32,24 @@ public class UserService {
                 userForm.getAccount(),
                 encryptPassword);
          */
-        List<User> results = userRepository.findAllByAccountAndPassword(
+//        List<User> results = userRepository.findAllByAccountAndPassword(
+//                userForm.getAccount(),
+//                userForm.getPassword());
+//        List<UserForm> users = setUserForm(results);
+//        return users;
+        User result = (User) userRepository.findByAccountAndPassword(
                 userForm.getAccount(),
                 userForm.getPassword());
-        List<UserForm> users = setUserForm(results);
-        return users;
+        UserForm userFormResult = setUserForm(result);
+        return userFormResult;
     }
 
     /*
      * DBから取得したデータをFormに設定
      */
-    private List<UserForm> setUserForm(List<User> results) {
-        List<UserForm> users = new ArrayList<>();
-
-        for (int i = 0; i < results.size(); i++) {
-            UserForm User = new UserForm();
-            User result = results.get(i);
-            User.setId(result.getId());
-            User.setAccount(result.getAccount());
-            User.setPassword(result.getPassword());
-            User.setName(result.getName());
-            User.setBranchId(result.getBranchId());
-            User.setDepartmentId(result.getDepartmentId());
-            User.setIsStopped(result.getIsStopped());
-            User.setCreatedDate(result.getCreatedDate());
-            User.setUpdatedDate(result.getUpdatedDate());
-
-            users.add(User);
-        }
-        return users;
+    private UserForm setUserForm(User result) {
+        UserForm userForm = new UserForm();
+        BeanUtils.copyProperties(result, userForm);
+        return  userForm;
     }
 }

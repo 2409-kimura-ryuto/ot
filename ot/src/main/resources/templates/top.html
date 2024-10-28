@@ -69,7 +69,7 @@
         </div>
         <div class="delete-button">
             <!-- 投稿を削除した場合、投稿に付随するコメント削除は未実装 -->
-            <form th:method="delete" th:action="@{/delete/{id}(id=${message.id})}">
+            <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
                 <input type="submit" value="削除" />
             </form>
         </div>
@@ -91,7 +91,7 @@
             <div th:if="${comment.messageId} == ${message.id}">
                 <div>
                     <!-- ユーザーを表示させるためにDBから引っ張ってくる段階でusers-commentsでinner joinする -->
-                    返信者 : <span th:text="${comment.user}"/>
+                    返信者 : <span th:text="${comment.account}"/>
                     返信日時 : <span th:text="${comment.createdDate}"/>
                 </div>
                 <br/>
@@ -99,7 +99,7 @@
                     本文 : <span th:text="${comment.text}"/>
                 </div>
                 <div class="delete-button">
-                    <form th:method="delete" th:action="@{/delete-comment/{id}(id=${comment.id})}">
+                    <form th:method="delete" th:action="@{/delete-comment/{id}(id=${comment.id})}" onSubmit="return CheckDelete()">
                         <input type="submit" value="削除" />
                     </form>
                 </div>

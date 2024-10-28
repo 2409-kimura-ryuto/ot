@@ -68,10 +68,14 @@ public class OtController {
             mav.setViewName("/login");
             return mav;
         }
+        UserForm userData = null;
+        try {
+            userData = userService.findUser(userForm);
+        } catch(RuntimeException e) {
+            userData = null;
+        }
 
-        List<UserForm> userData = userService.findUser(userForm);
-
-        if ((userData.size() == 0) || (userData.get(0).getIsStopped() == 1)) {
+        if ((userData == null) || (userData.getIsStopped() == 1)) {
             errorList.add("ログインに失敗しました");
             mav.addObject("validationError", errorList);
             mav.setViewName("/login");
@@ -148,9 +152,11 @@ public class OtController {
             mav.setViewName("/new");
             return mav;
         }
+
+        UserForm userForm = (UserForm) session.getAttribute("user");
+        messageForm.setUserId(userForm.getId());
         messageService.saveMessage(messageForm);
-        //topが画面が実装でき次第topにリダイレクトするように変更
-        return new ModelAndView("redirect:/new");
+        return new ModelAndView("redirect:/top");
     }
 
     /*
@@ -167,9 +173,8 @@ public class OtController {
     /*
      * コメント登録処理
      */
-    //URLと@ModelAttributeをhtmlと合わせる
-    @PostMapping("/add-comment")
-    public ModelAndView addComment(@Validated @ModelAttribute("commentForm") CommentForm commentForm, BindingResult result) {
+    @PostMapping("/add-comment/{id}")
+    public ModelAndView addComment(@PathVariable Integer id, @Validated @ModelAttribute("commentForm") CommentForm commentForm, BindingResult result) {
         ModelAndView mav = new ModelAndView();
         //バリデーション処理
         if (result.hasErrors()) {
@@ -180,6 +185,9 @@ public class OtController {
          ログインユーザーIDも出来ればviewでセットしたい*/
         UserForm userForm = (UserForm) session.getAttribute("user");
         commentForm.setUserId(userForm.getId());
+
+        //commentIdセット
+        commentForm.setMessageId(id);
 
         commentService.saveComment(commentForm);
         //topが画面が実装でき次第topにリダイレクトするように変更

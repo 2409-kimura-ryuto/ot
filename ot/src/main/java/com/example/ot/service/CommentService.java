@@ -1,14 +1,11 @@
 package com.example.ot.service;
 
 import com.example.ot.controller.form.CommentForm;
-import com.example.ot.controller.form.MessageForm;
 import com.example.ot.controller.form.UserCommentForm;
-import com.example.ot.controller.form.UserMessageForm;
+import com.example.ot.repository.UserCommentRepository;
 import com.example.ot.repository.CommentRepository;
 import com.example.ot.repository.entity.Comment;
-import com.example.ot.repository.entity.Message;
 import com.example.ot.repository.entity.UserComment;
-import com.example.ot.repository.entity.UserMessage;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +17,15 @@ import java.util.List;
 public class CommentService {
 
     @Autowired
+    UserCommentRepository userCommentRepository;
+    @Autowired
     CommentRepository commentRepository;
 
     /*
      * UserCommentを取得
      */
     public List<UserCommentForm> findAllUserComment() {
-        List<UserComment> results = commentRepository.findAllUserComment();
+        List<UserComment> results = userCommentRepository.findAllUserComment();
         List<UserCommentForm> comments = setUserCommentForm(results);
         return comments;
     }
