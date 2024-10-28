@@ -1,9 +1,6 @@
 package com.example.ot.controller;
 
-import com.example.ot.controller.form.MessageForm;
-import com.example.ot.controller.form.UserCommentForm;
-import com.example.ot.controller.form.UserMessageForm;
-import com.example.ot.controller.form.UserForm;
+import com.example.ot.controller.form.*;
 import com.example.ot.service.CommentService;
 import com.example.ot.service.MessageService;
 import com.example.ot.service.UserService;
@@ -126,7 +123,7 @@ public class OtController {
     /*
      * 投稿登録処理
      */
-    @PostMapping("/add-Message")
+    @PostMapping("/add-message")
     public ModelAndView addMessage(@Validated @ModelAttribute("messageForm") MessageForm messageForm, BindingResult result) {
         ModelAndView mav = new ModelAndView();
         //バリデーション処理
@@ -150,4 +147,36 @@ public class OtController {
         return new ModelAndView("redirect:/top");
     }
 
+    /*
+     * コメント登録処理
+     */
+    //URLと@ModelAttributeをhtmlと合わせる
+    @PostMapping("/add-comment")
+    public ModelAndView addComment(@Validated @ModelAttribute("commentForm") CommentForm commentForm, BindingResult result) {
+        ModelAndView mav = new ModelAndView();
+        //バリデーション処理
+        if (result.hasErrors()) {
+            mav.setViewName("/top");
+            return mav;
+        }
+        /*sessionからログインユーザーIDを取得しセット。messageIdはviewでcommentFormにセットする？
+         ログインユーザーIDも出来ればviewでセットしたい*/
+        UserForm userForm = (UserForm) session.getAttribute("user");
+        commentForm.setUserId(userForm.getId());
+
+        commentService.saveComment(commentForm);
+        //topが画面が実装でき次第topにリダイレクトするように変更
+        return new ModelAndView("redirect:/top");
+    }
+
+    /*
+     * コメント削除処理
+     */
+    @DeleteMapping("/delete-comment/{id}")
+    public ModelAndView deleteComment(@PathVariable Integer id) {
+        // 投稿をテーブルから削除
+        commentService.deleteComment(id);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/top");
+    }
 }
