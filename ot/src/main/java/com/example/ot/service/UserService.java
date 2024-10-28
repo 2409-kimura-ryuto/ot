@@ -18,17 +18,23 @@ import static com.example.ot.utils.CipherUtil.encrypt;
 public class UserService {
 
     @Autowired
-    UserRepository taskRepository;
+    UserRepository userRepository;
 
     /*
      * ユーザー情取得処理(ログイン時に使用)
      */
     public List<UserForm> findUser(UserForm userForm) throws Exception {
         //パスワードの暗号化
+        /* for test
         String encryptPassword = encrypt(userForm.getPassword());
-        List<User> results = taskRepository.findAllByAccountAndPassword(
+
+        List<User> results = userRepository.findAllByAccountAndPassword(
                 userForm.getAccount(),
                 encryptPassword);
+         */
+        List<User> results = userRepository.findAllByAccountAndPassword(
+                userForm.getAccount(),
+                userForm.getPassword());
         List<UserForm> users = setUserForm(results);
         return users;
     }

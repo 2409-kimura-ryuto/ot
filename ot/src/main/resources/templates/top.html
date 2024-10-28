@@ -13,7 +13,7 @@
         <!-- ユーザー管理ボタン(本社総務人事部のみ利用可能) -->
         <div>
             <a href="/user-management">
-                <button class="new-button" type="button">新規投稿</button>
+                <button type="button">ユーザー管理</button>
             </a>
         </div>
         <div >
@@ -41,10 +41,12 @@
     <br/>
     絞り込みフォーム
     <div class="filter">
-        <form mothod="get" th:action="@{/{start}-{end}-{category}(start=${start}, end=${end}, category=${category})}" th:object="${filterForm}">
+        <form mothod="get" th:action="@{/top}" th:object="${filterForm}">
+
             <a>
                 登校日<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
             </a>
+
             <a>
                 カテゴリー<input type="text" name="category" th:field="*{category}">
                 <input type="submit" value="絞込">

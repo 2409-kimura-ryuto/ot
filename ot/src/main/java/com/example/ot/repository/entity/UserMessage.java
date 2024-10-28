@@ -12,23 +12,14 @@ import java.util.Date;
 public class UserMessage {
     // read onlyのentity
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column
     private String account;
 
-    @Column
+    @Column(name="user_id")
     private int userId;
-
-    @Column
     private String title;
-
-    @Column
     private String text;
-
-    @Column
     private String category;
 
     @Column(name="created_date")
@@ -36,5 +27,4 @@ public class UserMessage {
 
     @Column(name="updated_date")
     private Date updatedDate;
-
 }
