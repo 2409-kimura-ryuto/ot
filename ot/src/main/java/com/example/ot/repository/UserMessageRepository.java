@@ -1,6 +1,5 @@
 package com.example.ot.repository;
 
-import com.example.ot.repository.entity.Message;
 import com.example.ot.repository.entity.UserMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,12 +10,12 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface MessageRepository extends JpaRepository<Message, Integer> {
-    // postgreSQLにて動作確認済み
+public interface UserMessageRepository extends JpaRepository<UserMessage, Integer> {
+
     @Query( value = "SELECT " +
                     "messages.id AS id, " +
                     "users.account AS account, " +
-                    "users.id AS userId, " +
+                    "users.id AS user_id, " +
                     "messages.title AS title, " +
                     "messages.text AS text, " +
                     "messages.category AS category, " +
@@ -31,20 +30,19 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     public List<UserMessage> findAllUserMessage(@Param("start") Date start, @Param("end")Date end);
 
     @Query( value = "SELECT " +
-            "messages.id AS id, " +
-            "users.account AS account, " +
-            "users.id AS userId, " +
-            "messages.title AS title, " +
-            "messages.text AS text, " +
-            "messages.category AS category, " +
-            "messages.created_date AS created_date, " +
-            "messages.updated_date AS updated_date " +
-            "FROM messages " +
-            "INNER JOIN users " +
-            "ON messages.user_id = users.id " +
-            "WHERE messages.created_date BETWEEN :start AND :end, " +
-            "text LIKE :category " +
-            "ORDER BY messages.created_date DESC",
+                    "messages.id AS id, " +
+                    "users.account AS account, " +
+                    "users.id AS user_id, " +
+                    "messages.title AS title, " +
+                    "messages.text AS text, " +
+                    "messages.category AS category, " +
+                    "messages.created_date AS created_date, " +
+                    "messages.updated_date AS updated_date " +
+                    "FROM messages " +
+                    "INNER JOIN users " +
+                    "ON messages.user_id = users.id " +
+                    "WHERE messages.created_date BETWEEN :start AND :end AND text LIKE :category " +
+                    "ORDER BY messages.created_date DESC;",
             nativeQuery = true)
     public List<UserMessage> findAllUserMessage(@Param("start") Date start, @Param("end")Date end, @Param("category")String category);
 }

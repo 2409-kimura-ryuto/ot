@@ -1,9 +1,7 @@
 package com.example.ot.controller;
 
-import com.example.ot.controller.form.MessageForm;
-import com.example.ot.controller.form.UserCommentForm;
-import com.example.ot.controller.form.UserMessageForm;
-import com.example.ot.controller.form.UserForm;
+import com.example.ot.controller.form.*;
+import com.example.ot.repository.entity.Comment;
 import com.example.ot.service.CommentService;
 import com.example.ot.service.MessageService;
 import com.example.ot.service.UserService;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -59,7 +58,7 @@ public class OtController {
      * ログイン処理
      */
     @PostMapping("/login")
-    public ModelAndView login(@Validated @ModelAttribute("userForm") UserForm userForm, BindingResult result) throws Exception {
+    public ModelAndView login(@Validated @ModelAttribute("userForm") UserForm userForm, BindingResult result, RedirectAttributes redirectAttributes) throws Exception {
         ModelAndView mav = new ModelAndView();
 
         //バリデーション処理
@@ -86,12 +85,13 @@ public class OtController {
         // 画面遷移先を指定
         mav.setViewName("/login");
 
-        // 投稿データオブジェクトを保管
-//        mav.addObject("user", userData);
         //ログイン情報をセッションに格納
         session.setAttribute("user", userData);
         //top画面にリダイレクト 今はログイン
-        return new ModelAndView("redirect:/login");
+        FilterForm filterForm = new FilterForm();
+        session.setAttribute("filterForm", filterForm);
+        mav.setViewName("redirect:/top");
+        return mav;
     }
 
     /*
@@ -107,10 +107,8 @@ public class OtController {
     /*
      * ホーム画面表示
      */
-    @GetMapping("/{start}-{end}-{category}")
-    public ModelAndView top(@RequestParam("start") String start,
-                            @RequestParam("end") String end,
-                            @RequestParam("category") String category) {
+    @GetMapping("/top")
+    public ModelAndView top(@ModelAttribute("filterForm") FilterForm filterForm) {
 
         // セッションからログインユーザ情報を取得する
         // ログインユーザが総務人事部の場合か判定 & フラグの設定
@@ -119,11 +117,14 @@ public class OtController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/top");
 
-        List<UserMessageForm> messages = messageService.findAllUserMessage(start, end, category);
+        List<UserMessageForm> messages = messageService.findAllUserMessage(filterForm.getStart(), filterForm.getEnd(), filterForm.getCategory());
         List<UserCommentForm> comments = commentService.findAllUserComment();
 
         mav.addObject("messages", messages);
         mav.addObject("comments", comments);
+        mav.addObject("filterForm", filterForm);
+        Comment emptyComment = new Comment();
+        mav.addObject("emptyComment", emptyComment);
 
         return mav;
     }

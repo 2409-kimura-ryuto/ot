@@ -1,15 +1,12 @@
 package com.example.ot.service;
 
-import com.example.ot.controller.form.MessageForm;
 import com.example.ot.controller.form.UserMessageForm;
-import com.example.ot.repository.MessageRepository;
-import com.example.ot.repository.entity.Message;
+import com.example.ot.repository.UserMessageRepository;
 import com.example.ot.repository.entity.UserMessage;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +17,7 @@ import java.util.List;
 public class MessageService {
 
     @Autowired
-    MessageRepository messageRepository;
+    UserMessageRepository userMessageRepository;
 
     /*
      * UserMessageを取得
@@ -43,13 +40,14 @@ public class MessageService {
         try{
             Date startDate = sdFormat.parse(start);
             Date endDate = sdFormat.parse(end);
-            List<UserMessage> results = null;
             if (category.isBlank()) {
-                results = messageRepository.findAllUserMessage(startDate, endDate);
+                List<UserMessage> results = userMessageRepository.findAllUserMessage(startDate, endDate);
+                messages = setUserMessageForm(results);
+
             } else {
-                results = messageRepository.findAllUserMessage(startDate, endDate, "%" + category + "%");
+                List<UserMessage> results = userMessageRepository.findAllUserMessage(startDate, endDate, "%" + category + "%");
+                messages = setUserMessageForm(results);
             }
-            messages = setUserMessageForm(results);
             return messages;
         } catch (ParseException e) {
             // 日付での絞り込みが失敗した場合、nullを返す
