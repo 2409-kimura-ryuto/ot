@@ -290,6 +290,19 @@ public class OtController {
     }
 
     /*
+     * ユーザー復活停止状態更新処理
+     */
+    @PostMapping("/change-isStopped/{id}")
+    public ModelAndView changeIsStopped(@ModelAttribute("UserForm") UserForm userForm,
+                                        @RequestParam(name = "isStopped", required = false) Integer isStoppedNumber,
+                                        @PathVariable Integer id) throws Exception {
+
+        ModelAndView mav = new ModelAndView();
+        userForm.setIsStopped(isStoppedNumber);
+        userService.saveUser(userForm);
+        return new ModelAndView("redirect:/user-management");
+    }
+    /*
      * ユーザー編集画面表示
      */
     @GetMapping("/user-edit/{id}")
@@ -344,8 +357,6 @@ public class OtController {
             return mav;
         }
         // パスワード未入力の場合は、そのまま更新する
-        UserForm refUser = userService.findById(userForm.getId());
-        userForm.setPassword(refUser.getPassword());
         mav.addObject("userForm", userForm);
         userService.saveUser(userForm);
         mav.setViewName("redirect:/user-management");
