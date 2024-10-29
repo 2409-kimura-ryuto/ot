@@ -22,6 +22,9 @@ public class MessageService {
     @Autowired
     UserMessageRepository userMessageRepository;
 
+    @Autowired
+    MessageRepository messageRepository;
+
     /*
      * UserMessageを取得
      */

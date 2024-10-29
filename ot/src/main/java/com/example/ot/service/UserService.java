@@ -1,5 +1,7 @@
 package com.example.ot.service;
 
+import com.example.ot.controller.form.MessageForm;
+import com.example.ot.repository.entity.Message;
 import org.springframework.stereotype.Service;
 
 import com.example.ot.controller.form.UserForm;
@@ -25,16 +27,19 @@ public class UserService {
      */
     public List<UserForm> findUser(UserForm userForm) throws Exception {
         //パスワードの暗号化
-        /* for test
         String encryptPassword = encrypt(userForm.getPassword());
 
         List<User> results = userRepository.findAllByAccountAndPassword(
                 userForm.getAccount(),
                 encryptPassword);
-         */
-        List<User> results = userRepository.findAllByAccountAndPassword(
-                userForm.getAccount(),
-                userForm.getPassword());
+        List<UserForm> users = setUserForm(results);
+        return users;
+    }
+    /*
+     * ユーザ情取得処理(ユーザ登録時に使用)
+     */
+    public List<UserForm> findByAccount(String account) {
+        List<User> results = userRepository.findAllByAccount(account);
         List<UserForm> users = setUserForm(results);
         return users;
     }
@@ -61,5 +66,25 @@ public class UserService {
             users.add(User);
         }
         return users;
+    }
+
+    /*
+     * レコード追加
+     */
+    public void saveUser(UserForm reqUser) throws Exception {
+        String encryptPassword = encrypt(reqUser.getPassword());
+        User saveUser = setUserEntity(reqUser);
+        saveUser.setPassword(encryptPassword);
+        userRepository.save(saveUser);
+    }
+
+    /*
+     * リクエストから取得した情報をentityに設定
+     */
+    private User setUserEntity(UserForm reqUser) {
+        // Stringのbranch, departmentをintに変換する
+        User user = new User();
+        BeanUtils.copyProperties(reqUser, user);
+        return user;
     }
 }
