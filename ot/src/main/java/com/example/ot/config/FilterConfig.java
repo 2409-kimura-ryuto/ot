@@ -13,9 +13,11 @@ public class FilterConfig {
 
         bean.setFilter(new LoginFilter());
         //ログイン情報が必要なURL
-        bean.addUrlPatterns("/");
+        bean.addUrlPatterns("/top");
         bean.addUrlPatterns("/add-message");
-        bean.addUrlPatterns("/userList");
+        bean.addUrlPatterns("/user-management");
+        bean.addUrlPatterns("/user-registration");
+        bean.addUrlPatterns("/user-edit/*");
         bean.setOrder(1);
         return bean;
     }
