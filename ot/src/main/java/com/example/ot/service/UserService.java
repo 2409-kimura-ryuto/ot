@@ -63,10 +63,10 @@ public class UserService {
     }
 
     /*
-     * UserInformationを取得
+     * UserInformationを全件取得
      */
     public List<UserInformationForm> findAllUserInformation() {
-        List<UserInformation> results = userInformationRepository.findAllUserInformation();
+        List<UserInformation> results = userInformationRepository.findAllUserInformationByOrderByCreatedDate();
         List<UserInformationForm> userInformations = setUserInformationForm(results);
         return userInformations;
     }
@@ -88,9 +88,12 @@ public class UserService {
      * レコード追加
      */
     public void saveUser(UserForm reqUser) throws Exception {
-        String encryptPassword = encrypt(reqUser.getPassword());
         User saveUser = setUserEntity(reqUser);
-        saveUser.setPassword(encryptPassword);
+        //開始・停止状態を更新する際にpasswordがnullでも動作させるための条件分岐
+        if (reqUser.getPassword() != null) {
+            String encryptPassword = encrypt(reqUser.getPassword());
+            saveUser.setPassword(encryptPassword);
+        }
         userRepository.save(saveUser);
     }
 

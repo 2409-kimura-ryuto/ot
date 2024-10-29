@@ -25,5 +25,5 @@ public interface UserInformationRepository extends JpaRepository<UserInformation
             "INNER JOIN departments " +
             "ON users.department_id = departments.id ",
             nativeQuery = true)
-    public List<UserInformation> findAllUserInformation();
+    public List<UserInformation> findAllUserInformationByOrderByCreatedDate();
 }

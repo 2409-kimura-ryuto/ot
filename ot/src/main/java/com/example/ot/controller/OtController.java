@@ -180,7 +180,7 @@ public class OtController {
     /*
      * ユーザー登録画面表示
      */
-    @GetMapping("/add-user")
+    @GetMapping("/user-registration")
     public ModelAndView addUser(@ModelAttribute("user")UserForm loginUser) {
 
         ModelAndView mav = new ModelAndView();
@@ -293,10 +293,11 @@ public class OtController {
     @PostMapping("/change-isStopped/{id}")
     public ModelAndView changeIsStopped(@ModelAttribute("UserForm") UserForm userForm,
                                         @RequestParam(name = "isStopped", required = false) Integer isStoppedNumber,
-                                        @PathVariable Integer id) {
+                                        @PathVariable Integer id) throws Exception {
 
         ModelAndView mav = new ModelAndView();
         userForm.setIsStopped(isStoppedNumber);
+        userService.saveUser(userForm);
         return new ModelAndView("redirect:/user-management");
     }
 }
