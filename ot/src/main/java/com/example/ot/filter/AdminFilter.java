@@ -1,10 +1,9 @@
 package com.example.ot.filter;
 
-
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import com.example.ot.controller.form.UserForm;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,12 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-public class LoginFilter implements Filter {
+public class AdminFilter implements Filter {
     @Autowired
     HttpSession httpSession;
     @Override
@@ -30,16 +24,17 @@ public class LoginFilter implements Filter {
 
         httpSession = httpRequest.getSession(false);
 
-        if (httpSession != null && httpSession.getAttribute("user") != null){
+        UserForm userForm = (UserForm) httpSession.getAttribute("user");
+        if (userForm.getDepartmentId() == 1){
             chain.doFilter(httpRequest,httpResponse);
         } else {
             httpSession = httpRequest.getSession(true);
             //エラーメッセージをセット
             List<String> errorMessages = new ArrayList<>();
-            errorMessages.add("ログインしてください");
+            errorMessages.add("無効なアクセスです");
             httpSession.setAttribute("errorMessages", errorMessages);
             //ログインページにリダイレクト
-            httpResponse.sendRedirect("/login");
+            httpResponse.sendRedirect("/top");
         }
 
     }

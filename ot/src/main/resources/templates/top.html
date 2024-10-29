@@ -7,6 +7,14 @@
     <title>掲示板</title>
 </head>
 <body>
+<div class="errorMessages">
+    <ul>
+        <div th:if="${session.errorMessages}">
+            <li><div th:text="${session.errorMessages}" /></li>
+        </div>
+    </ul>
+</div>
+
 <div class="header-contents">
     <h1>掲示板</h1>
     <div class="top-button">
