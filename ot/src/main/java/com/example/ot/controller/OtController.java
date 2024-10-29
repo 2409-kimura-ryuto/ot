@@ -70,9 +70,14 @@ public class OtController {
         List<String> errorList = new ArrayList<String>();
         if (result.hasErrors()) {
             for (ObjectError error : result.getAllErrors()) {
-                errorList.add(error.getDefaultMessage());
+                // 特定のエラーを除外する
+                if (!Objects.equals(error.getDefaultMessage(), "パスワードと確認用パスワードが一致しません") &&
+                        !Objects.equals(error.getDefaultMessage(), "氏名を入力してください")) {
+                    errorList.add(error.getDefaultMessage());
+                }
             }
-
+        }
+        if (errorList.size() > 0) {
             mav.addObject("validationError", errorList);
             mav.setViewName("/login");
             return mav;
