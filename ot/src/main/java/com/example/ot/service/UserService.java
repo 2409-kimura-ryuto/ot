@@ -26,6 +26,7 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     UserInformationRepository userInformationRepository;
 
@@ -37,7 +38,7 @@ public class UserService {
         String encryptPassword = encrypt(userForm.getPassword());
         User result = (User) userRepository.findByAccountAndPassword(
                 userForm.getAccount(),
-                userForm.getPassword());
+                encryptPassword);
         UserForm userFormResult = setUserForm(result);
         return userFormResult;
     }
@@ -47,10 +48,22 @@ public class UserService {
     public List<UserForm> findByAccount(String account) {
         // 内容修正 (リポジトリからの戻り値をリストからUserに変更、バリデーション通るか要確認)
         User result = userRepository.findAllByAccount(account);
-        UserForm user = setUserForm(result);
         List<UserForm> users = new ArrayList<>();
+
+        if (result == null) {
+            return users;
+        }
+        UserForm user = setUserForm(result);
         users.add(user);
         return users;
+    }
+    /*
+     * ユーザ情取得処理
+     */
+    public UserForm findById(Integer id) {
+        User result = (User)userRepository.findById(id).orElse(null);
+        UserForm user = setUserForm(result);
+        return user;
     }
 
     /*
@@ -58,6 +71,17 @@ public class UserService {
      */
     private UserForm setUserForm(User result) {
         UserForm userForm = new UserForm();
+
+        //userForm.setId(result.getId());
+        //userForm.setAccount(result.getAccount());
+        //userForm.setPassword(result.getPassword());
+        //userForm.setName(result.getName());
+        //userForm.setBranchId(result.getBranchId());
+        //userForm.setDepartmentId(result.getDepartmentId());
+        //userForm.setIsStopped(result.getIsStopped());
+        //userForm.setCreatedDate(result.getCreatedDate());
+        //userForm.setUpdatedDate(result.getUpdatedDate());
+
         BeanUtils.copyProperties(result, userForm);
         return  userForm;
     }
@@ -71,7 +95,7 @@ public class UserService {
         return userInformations;
     }
     /*
-     * DBから取得したUserCommentをFormに変換
+     * DBから取得したUserInformationをFormに変換
      */
     private List<UserInformationForm> setUserInformationForm(List<UserInformation> results) {
         List<UserInformationForm> userInformations = new ArrayList<>();
