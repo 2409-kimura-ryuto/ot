@@ -264,6 +264,7 @@ public class OtController {
 
         //commentIdセット
         commentForm.setMessageId(id);
+        commentForm.setId(null);
 
         commentService.saveComment(commentForm);
         //topが画面が実装でき次第topにリダイレクトするように変更

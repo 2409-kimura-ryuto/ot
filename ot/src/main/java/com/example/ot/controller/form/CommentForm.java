@@ -8,7 +8,7 @@ import java.util.*;
 @Getter
 @Setter
 public class CommentForm {
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "メッセージを入力してください")
     @Size(max = 500, message = "500文字以内で入力してください")
