@@ -56,7 +56,7 @@
     <br/>
     <!-- 投稿表示 -->
     <div class="message-icon" th:each="message : ${messages}">
-        <div>
+        <div class="message-header">
             件名: <span th:text ="${message.title}"/>
             カテゴリー: <span th:text ="${message.category}"/><br/>
             投稿日時 : <span th:text ="${message.createdDate}"/>
@@ -64,31 +64,33 @@
             投稿者 : <span th:text ="${message.account}"/>
         </div>
         <br/>
-        <div>
-            本文 : <span th:text ="${message.text}"/>
-        </div>
-        <div class="delete-button">
-            <!-- 投稿を削除した場合、投稿に付随するコメント削除は未実装 -->
-            <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
-                <input type="submit" value="削除" />
-            </form>
-        </div>
-        <div class="new-comment">
-            <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${emptyComment}">
-                <div class="form-area">
-                    <div class="error-message" th:each="errorMessage : ${errorMessages}">
-                        <div class="text" th:if="${errorReportId} == ${message.id}">
-                            <span th:text="${errorMessage}"/>
+        <div class="message-body">
+            <div>
+                本文 : <span th:text ="${message.text}"/>
+            </div>
+            <div class="delete-button">
+                <!-- 投稿を削除した場合、投稿に付随するコメント削除は未実装 -->
+                <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
+                    <input type="submit" value="削除" />
+                </form>
+            </div>
+            <div class="new-comment">
+                <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${emptyComment}">
+                    <div class="form-area">
+                        <div class="error-message" th:each="errorMessage : ${errorMessages}">
+                            <div class="text" th:if="${errorReportId} == ${message.id}">
+                                <span th:text="${errorMessage}"/>
+                            </div>
                         </div>
+                        <label>コメント</label>
+                        <textarea class="tweet-box" name="text" th:field="*{text}" size="20" maxlength="200" /></textarea><br/>
+                        <input type="submit" value="送信" />
                     </div>
-                    <label>コメント</label>
-                    <textarea class="tweet-box" name="text" th:field="*{text}" size="20" maxlength="200" /></textarea><br/>
-                    <input type="submit" value="送信" />
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
         <div class="comment-icon" th:each="comment : ${comments}">
-            <div th:if="${comment.messageId} == ${message.id}">
+            <div class="comment-area" th:if="${comment.messageId} == ${message.id}">
                 <div>
                     <!-- ユーザーを表示させるためにDBから引っ張ってくる段階でusers-commentsでinner joinする -->
                     返信者 : <span th:text="${comment.account}"/>

@@ -2,3 +2,17 @@
 .errorMessages {
 	color: red;
 }
+/* 共通 */
+
+/* top */
+.message-header{
+    margin: 0 15px 15px 15px;
+    background-color: #faebd7;
+}
+.message-body {
+    margin: 0 15px 15px 15px;
+    background-color: #fffaf0;
+}
+.comment-icon {
+    margin: 0 15px 40px 300px;
+}
