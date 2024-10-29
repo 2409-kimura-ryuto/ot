@@ -218,4 +218,16 @@ public class OtController {
         return mav;
     }
 
+    /*
+     * ユーザー復活停止状態更新処理
+     */
+    @PostMapping("/change-isStopped/{id}")
+    public ModelAndView changeIsStopped(@ModelAttribute("UserForm") UserForm userForm,
+                                        @RequestParam(name = "isStopped", required = false) Integer isStoppedNumber,
+                                        @PathVariable Integer id) {
+
+        ModelAndView mav = new ModelAndView();
+        userForm.setIsStopped(isStoppedNumber);
+        return new ModelAndView("redirect:/user-management");
+    }
 }
