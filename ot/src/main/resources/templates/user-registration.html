@@ -31,13 +31,11 @@
         <label>氏名</label>
         <input type="text" th:name="name" th:value="*{name}"/><br/>
 
-        <!-- ここはプルダウン式にした方が良い -->
         <label>支社</label>
         <select th:name="branchId">
             <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}" th:selected="${userForm.branchId == branch.id}"></option>
         </select>
 
-        <!-- ここはプルダウン式にした方が良い -->
         <label>部署</label>
         <select th:name="departmentId">
             <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}" th:selected="${userForm.departmentId == department.id}"></option>

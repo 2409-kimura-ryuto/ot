@@ -3,6 +3,7 @@ package com.example.ot.controller;
 import com.example.ot.controller.form.*;
 import com.example.ot.repository.entity.Comment;
 import com.example.ot.repository.entity.User;
+import com.example.ot.repository.entity.UserInformation;
 import com.example.ot.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.example.ot.utils.CipherUtil.encrypt;
 
@@ -180,7 +182,7 @@ public class OtController {
     /*
      * ユーザー登録画面表示
      */
-    @GetMapping("/add-user")
+    @GetMapping("/user-registration")
     public ModelAndView addUser(@ModelAttribute("user")UserForm loginUser) {
 
         ModelAndView mav = new ModelAndView();
@@ -287,4 +289,66 @@ public class OtController {
         return mav;
     }
 
+    /*
+     * ユーザー編集画面表示
+     */
+    @GetMapping("/user-edit/{id}")
+    public ModelAndView userEdit(@PathVariable Integer id) {
+        ModelAndView mav = new ModelAndView();
+
+        UserForm userForm = userService.findById(id);
+        userForm.setPassword("");
+        mav.addObject("userForm", userForm);
+
+        List<BranchForm> branches = branchService.findAll();
+        mav.addObject("branches", branches);
+
+        List<DepartmentForm> departments = departmentService.findAll();
+        mav.addObject("departments", departments);
+
+        mav.setViewName("/user-edit");
+
+        return mav;
+    }
+
+    /*
+     * ユーザー編集処理
+     */
+    @PutMapping("/edit")
+    public ModelAndView userEdit(@Validated @ModelAttribute("userForm")UserForm userForm, BindingResult result) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        // バリデーション処理
+        List<String> errorList = new ArrayList<String>();
+        if (result.hasErrors()) {
+            for (ObjectError error : result.getAllErrors()) {
+                // パスワードが未入力の場合はエラー処理しない
+                if (!Objects.equals(error.getDefaultMessage(), "パスワードを入力してください") &&
+                    !Objects.equals(error.getDefaultMessage(), "パスワードは半角文字かつ6文字以上20文字以下で入力してください")) {
+                    errorList.add(error.getDefaultMessage());
+                }
+            }
+        }
+        List<UserForm> users = userService.findByAccount(userForm.getAccount());
+        // 既存データでアカウントの重複がないことを前提にListから値を取得
+        if (users.size() > 0 && users.get(0).getId() != userForm.getId()) {
+            errorList.add("アカウントが重複しています");
+        }
+        if (!errorList.isEmpty()) {
+            List<BranchForm> branches = branchService.findAll();
+            mav.addObject("branches", branches);
+            List<DepartmentForm> departments = departmentService.findAll();
+            mav.addObject("departments", departments);
+            mav.addObject("userForm", userForm);
+            mav.addObject("validationError", errorList);
+            mav.setViewName("/user-registration");
+            return mav;
+        }
+        // パスワード未入力の場合は、そのまま更新する
+        UserForm refUser = userService.findById(userForm.getId());
+        userForm.setPassword(refUser.getPassword());
+        mav.addObject("userForm", userForm);
+        userService.saveUser(userForm);
+        mav.setViewName("redirect:/user-management");
+        return mav;
+    }
 }
