@@ -2,6 +2,11 @@ package com.example.ot.service;
 
 import com.example.ot.controller.form.MessageForm;
 import com.example.ot.repository.entity.Message;
+import com.example.ot.controller.form.UserCommentForm;
+import com.example.ot.controller.form.UserInformationForm;
+import com.example.ot.repository.UserInformationRepository;
+import com.example.ot.repository.entity.UserComment;
+import com.example.ot.repository.entity.UserInformation;
 import org.springframework.stereotype.Service;
 
 import com.example.ot.controller.form.UserForm;
@@ -21,51 +26,62 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserInformationRepository userInformationRepository;
 
     /*
      * ユーザー情取得処理(ログイン時に使用)
      */
-    public List<UserForm> findUser(UserForm userForm) throws Exception {
+    public UserForm findUser(UserForm userForm) throws Exception {
         //パスワードの暗号化
         String encryptPassword = encrypt(userForm.getPassword());
-
-        List<User> results = userRepository.findAllByAccountAndPassword(
+        User result = (User) userRepository.findByAccountAndPassword(
                 userForm.getAccount(),
-                encryptPassword);
-        List<UserForm> users = setUserForm(results);
-        return users;
+                userForm.getPassword());
+        UserForm userFormResult = setUserForm(result);
+        return userFormResult;
     }
     /*
      * ユーザ情取得処理(ユーザ登録時に使用)
      */
     public List<UserForm> findByAccount(String account) {
-        List<User> results = userRepository.findAllByAccount(account);
-        List<UserForm> users = setUserForm(results);
+        // 内容修正 (リポジトリからの戻り値をリストからUserに変更、バリデーション通るか要確認)
+        User result = userRepository.findAllByAccount(account);
+        UserForm user = setUserForm(result);
+        List<UserForm> users = new ArrayList<>();
+        users.add(user);
         return users;
     }
 
     /*
      * DBから取得したデータをFormに設定
      */
-    private List<UserForm> setUserForm(List<User> results) {
-        List<UserForm> users = new ArrayList<>();
+    private UserForm setUserForm(User result) {
+        UserForm userForm = new UserForm();
+        BeanUtils.copyProperties(result, userForm);
+        return  userForm;
+    }
 
-        for (int i = 0; i < results.size(); i++) {
-            UserForm User = new UserForm();
-            User result = results.get(i);
-            User.setId(result.getId());
-            User.setAccount(result.getAccount());
-            User.setPassword(result.getPassword());
-            User.setName(result.getName());
-            User.setBranchId(result.getBranchId());
-            User.setDepartmentId(result.getDepartmentId());
-            User.setIsStopped(result.getIsStopped());
-            User.setCreatedDate(result.getCreatedDate());
-            User.setUpdatedDate(result.getUpdatedDate());
+    /*
+     * UserInformationを取得
+     */
+    public List<UserInformationForm> findAllUserInformation() {
+        List<UserInformation> results = userInformationRepository.findAllUserInformation();
+        List<UserInformationForm> userInformations = setUserInformationForm(results);
+        return userInformations;
+    }
+    /*
+     * DBから取得したUserCommentをFormに変換
+     */
+    private List<UserInformationForm> setUserInformationForm(List<UserInformation> results) {
+        List<UserInformationForm> userInformations = new ArrayList<>();
 
-            users.add(User);
+        for (UserInformation result : results) {
+            UserInformationForm userInformation = new UserInformationForm();
+            BeanUtils.copyProperties(result, userInformation);
+            userInformations.add(userInformation);
         }
-        return users;
+        return userInformations;
     }
 
     /*

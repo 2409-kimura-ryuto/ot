@@ -12,24 +12,16 @@ import java.util.Date;
 public class UserComment {
     // read onlyのentity
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column
     private String account;
 
-    @Column
+    @Column(name="user_id")
     private int userId;
 
-    @Column
+    @Column(name="message_id")
     private int messageId;
-
-    @Column
     private String text;
-
-    @Column
-    private String category;
 
     @Column(name="created_date")
     private Date createdDate;

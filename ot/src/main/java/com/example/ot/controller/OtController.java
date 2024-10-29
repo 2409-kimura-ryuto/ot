@@ -75,10 +75,14 @@ public class OtController {
             mav.setViewName("/login");
             return mav;
         }
+        UserForm userData = null;
+        try {
+            userData = userService.findUser(userForm);
+        } catch(RuntimeException e) {
+            userData = null;
+        }
 
-        List<UserForm> userData = userService.findUser(userForm);
-
-        if ((userData.size() == 0) || (userData.get(0).getIsStopped() == 1)) {
+        if ((userData == null) || (userData.getIsStopped() == 1)) {
             errorList.add("ログインに失敗しました");
             mav.addObject("validationError", errorList);
             mav.setViewName("/login");
@@ -148,7 +152,7 @@ public class OtController {
     /*
      * 投稿登録処理
      */
-    @PostMapping("/add-Message")
+    @PostMapping("/add-message")
     public ModelAndView addMessage(@Validated @ModelAttribute("messageForm") MessageForm messageForm, BindingResult result) {
         ModelAndView mav = new ModelAndView();
         //バリデーション処理
@@ -156,9 +160,11 @@ public class OtController {
             mav.setViewName("/new");
             return mav;
         }
+
+        UserForm userForm = (UserForm) session.getAttribute("user");
+        messageForm.setUserId(userForm.getId());
         messageService.saveMessage(messageForm);
-        //topが画面が実装でき次第topにリダイレクトするように変更
-        return new ModelAndView("redirect:/new");
+        return new ModelAndView("redirect:/top");
     }
 
     /*
@@ -233,4 +239,52 @@ public class OtController {
         mav.setViewName("redirect:/top");
         return mav;
     }
+    /*
+     * コメント登録処理
+     */
+    @PostMapping("/add-comment/{id}")
+    public ModelAndView addComment(@PathVariable Integer id, @Validated @ModelAttribute("commentForm") CommentForm commentForm, BindingResult result) {
+        ModelAndView mav = new ModelAndView();
+        //バリデーション処理
+        if (result.hasErrors()) {
+            mav.setViewName("/top");
+            return mav;
+        }
+        /*sessionからログインユーザーIDを取得しセット。messageIdはviewでcommentFormにセットする？
+         ログインユーザーIDも出来ればviewでセットしたい*/
+        UserForm userForm = (UserForm) session.getAttribute("user");
+        commentForm.setUserId(userForm.getId());
+
+        //commentIdセット
+        commentForm.setMessageId(id);
+
+        commentService.saveComment(commentForm);
+        //topが画面が実装でき次第topにリダイレクトするように変更
+        return new ModelAndView("redirect:/top");
+    }
+
+    /*
+     * コメント削除処理
+     */
+    @DeleteMapping("/delete-comment/{id}")
+    public ModelAndView deleteComment(@PathVariable Integer id) {
+        // 投稿をテーブルから削除
+        commentService.deleteComment(id);
+        // rootへリダイレクト
+        return new ModelAndView("redirect:/top");
+    }
+
+    /*
+     * ユーザー管理画面表示処理
+     */
+    @GetMapping("/user-management")
+    public ModelAndView userManagement() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/user-management");
+
+        List<UserInformationForm> userInformations = userService.findAllUserInformation();
+        mav.addObject("users", userInformations);
+        return mav;
+    }
+
 }

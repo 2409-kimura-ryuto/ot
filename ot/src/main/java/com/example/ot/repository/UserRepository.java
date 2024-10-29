@@ -20,13 +20,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
                     "AND password = :password " ,
             nativeQuery = true
     )
-    public List<User> findAllByAccountAndPassword(@Param("account") String account, @Param("password")String password);
+    public User findByAccountAndPassword(@Param("account") String account, @Param("password")String password);
 
     @Query(
             value = "SELECT * FROM users " +
                     "WHERE account = :account",
             nativeQuery = true
     )
-    public List<User> findAllByAccount(@Param("account") String account);
+    public User findAllByAccount(@Param("account") String account);
 
 }

@@ -21,6 +21,8 @@ public class MessageService {
 
     @Autowired
     UserMessageRepository userMessageRepository;
+    @Autowired
+    MessageRepository messageRepository;
 
     @Autowired
     MessageRepository messageRepository;
