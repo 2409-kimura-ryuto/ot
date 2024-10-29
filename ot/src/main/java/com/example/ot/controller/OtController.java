@@ -204,4 +204,18 @@ public class OtController {
         // rootへリダイレクト
         return new ModelAndView("redirect:/top");
     }
+
+    /*
+     * ユーザー管理画面表示処理
+     */
+    @GetMapping("/user-management")
+    public ModelAndView userManagement() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/user-management");
+
+        List<UserInformationForm> userInformations = userService.findAllUserInformation();
+        mav.addObject("users", userInformations);
+        return mav;
+    }
+
 }

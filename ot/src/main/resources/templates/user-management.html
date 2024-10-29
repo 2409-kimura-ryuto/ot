@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <link th:href="@{/css/style.css}" rel="styleSheet">
+    <script th:src="@{/js/script.js}"></script>
+    <title>ユーザー管理画面</title>
 </head>
 <body>
-$END$
+<div class="header-contents">
+    <h1>ユーザー管理</h1>
+
+    <!-- ユーザー登録ボタン -->
+    <div>
+        <a href="/user-registration">
+            <button class="new-button" type="button">ユーザー登録</button>
+        </a>
+    </div>
+    <br/>
+
+    <!-- ユーザー一覧表示 -->
+    <table>
+        <thead>
+            <tr>
+                <th>氏名</th>
+                <th>所属</th>
+                <th>所属部署</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user: ${users}">
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.branchName}"></td>
+                <td th:text="${user.departmentName}"></td>
+                <!-- ユーザー編集ボタン -->
+                <td>
+                    <a th:href="@{/user-edit/{id}(id=${user.id})}">
+                        <input type="submit" value="編集">
+                        <input type="hidden" name="id" th:value="${user.id}">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
 </body>
 </html>

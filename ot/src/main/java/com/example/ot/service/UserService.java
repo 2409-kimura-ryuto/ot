@@ -1,5 +1,10 @@
 package com.example.ot.service;
 
+import com.example.ot.controller.form.UserCommentForm;
+import com.example.ot.controller.form.UserInformationForm;
+import com.example.ot.repository.UserInformationRepository;
+import com.example.ot.repository.entity.UserComment;
+import com.example.ot.repository.entity.UserInformation;
 import org.springframework.stereotype.Service;
 
 import com.example.ot.controller.form.UserForm;
@@ -19,6 +24,8 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserInformationRepository userInformationRepository;
 
     /*
      * ユーザー情取得処理(ログイン時に使用)
@@ -51,5 +58,27 @@ public class UserService {
         UserForm userForm = new UserForm();
         BeanUtils.copyProperties(result, userForm);
         return  userForm;
+    }
+
+    /*
+     * UserInformationを取得
+     */
+    public List<UserInformationForm> findAllUserInformation() {
+        List<UserInformation> results = userInformationRepository.findAllUserInformation();
+        List<UserInformationForm> userInformations = setUserInformationForm(results);
+        return userInformations;
+    }
+    /*
+     * DBから取得したUserCommentをFormに変換
+     */
+    private List<UserInformationForm> setUserInformationForm(List<UserInformation> results) {
+        List<UserInformationForm> userInformations = new ArrayList<>();
+
+        for (UserInformation result : results) {
+            UserInformationForm userInformation = new UserInformationForm();
+            BeanUtils.copyProperties(result, userInformation);
+            userInformations.add(userInformation);
+        }
+        return userInformations;
     }
 }
