@@ -70,9 +70,9 @@ public class OtController {
         List<String> errorList = new ArrayList<String>();
         if (result.hasErrors()) {
             for (ObjectError error : result.getAllErrors()) {
-                // 特定のエラーを除外する
-                if (!Objects.equals(error.getDefaultMessage(), "パスワードと確認用パスワードが一致しません") &&
-                        !Objects.equals(error.getDefaultMessage(), "氏名を入力してください")) {
+                // 特定のエラーのみ取得する
+                if (Objects.equals(error.getDefaultMessage(), "アカウントを入力してください") ||
+                        Objects.equals(error.getDefaultMessage(), "パスワードを入力してください")) {
                     errorList.add(error.getDefaultMessage());
                 }
             }
