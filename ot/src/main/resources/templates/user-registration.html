@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="jp">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <link th:href="@{/css/style.css}" rel="styleSheet">
+    <script th:src="@{/js/script.js}"></script>
+    <title>掲示板 ユーザー登録</title>
 </head>
 <body>
-$END$
+<div class="header-contents">
+    <!-- エラーメッセージの表示 -->
+    <div class="errorMessages">
+        <ul>
+            <div th:if="${validationError}" th:each="error : ${validationError}">
+                <li><div th:text="${error}"></div></li>
+            </div>
+        </ul>
+    </div>
+</div>
+<div class="main-contents">
+    <form th:method="put" action="/signup" th:object="${userForm}">
+        <label>アカウント</label>
+        <input type="text" th:name="account" th:value="*{account}"/> <br/>
+
+        <label>パスワード</label>
+        <input type="password" th:name="password" th:value="*{password}"/><br/>
+
+        <label>パスワード確認用</label>
+        <input type="password" th:name="passwordRetype" th:value="*{passwordRetype}"/><br/>
+
+        <label>氏名</label>
+        <input type="text" th:name="name" th:value="*{name}"/><br/>
+
+        <!-- ここはプルダウン式にした方が良い -->
+        <label>支社</label>
+        <select th:name="branchId">
+            <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}" th:selected="${userForm.branchId == branch.id}"></option>
+        </select>
+
+        <!-- ここはプルダウン式にした方が良い -->
+        <label>部署</label>
+        <select th:name="departmentId">
+            <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}" th:selected="${userForm.departmentId == department.id}"></option>
+        </select>
+
+        <input type="submit" value="登録" /> <br />
+    </form>
+</div>
 </body>
 </html>

@@ -16,6 +16,12 @@
                 <button type="button">ユーザー管理</button>
             </a>
         </div>
+        <!-- ユーザー管理ボタン(本社総務人事部のみ利用可能) -->
+        <div>
+            <a href="/add-user">
+                <button type="button">ユーザー登録</button>
+            </a>
+        </div>
         <div >
             <form th:method="get" th:action="@{/logout}">
                 <input type="submit" value="ログアウト">

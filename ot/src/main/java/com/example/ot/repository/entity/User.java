@@ -34,6 +34,7 @@ public class User {
     @Column(name="department_id")
     private int departmentId;
 
+    // 0: 運用中, 1: 停止中
     @Column(name="is_stopped")
     private int isStopped;
 
@@ -48,6 +49,7 @@ public class User {
         Date date = new Date();
         this .setCreatedDate(date);
         this .setUpdatedDate(date);
+        this .setIsStopped(0);
     }
 
     @PreUpdate

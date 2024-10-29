@@ -22,4 +22,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     )
     public User findByAccountAndPassword(@Param("account") String account, @Param("password")String password);
 
+    @Query(
+            value = "SELECT * FROM users " +
+                    "WHERE account = :account",
+            nativeQuery = true
+    )
+    public User findAllByAccount(@Param("account") String account);
+
 }

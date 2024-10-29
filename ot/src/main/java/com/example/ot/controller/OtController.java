@@ -2,9 +2,8 @@ package com.example.ot.controller;
 
 import com.example.ot.controller.form.*;
 import com.example.ot.repository.entity.Comment;
-import com.example.ot.service.CommentService;
-import com.example.ot.service.MessageService;
-import com.example.ot.service.UserService;
+import com.example.ot.repository.entity.User;
+import com.example.ot.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.ArrayList;
 
+import static com.example.ot.utils.CipherUtil.encrypt;
+
 @Controller
 public class OtController {
 
@@ -32,6 +33,12 @@ public class OtController {
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    BranchService branchService;
+
+    @Autowired
+    DepartmentService departmentService;
 
     @Autowired
     HttpSession session;
@@ -110,6 +117,7 @@ public class OtController {
     @GetMapping("/top")
     public ModelAndView top(@ModelAttribute("filterForm") FilterForm filterForm) {
 
+        // ログインフィルター
         // セッションからログインユーザ情報を取得する
         // ログインユーザが総務人事部の場合か判定 & フラグの設定
         // ログインユーザのIDを事前に決めておく必要あり→要相談
@@ -169,7 +177,68 @@ public class OtController {
         // rootへリダイレクト
         return new ModelAndView("redirect:/top");
     }
+    /*
+     * ユーザー登録画面表示
+     */
+    @GetMapping("/add-user")
+    public ModelAndView addUser(@ModelAttribute("user")UserForm loginUser) {
 
+        ModelAndView mav = new ModelAndView();
+        /* 管理者権限フィルター
+        if (user.getDepartmentId() != 1) {
+            List<String> errorList = new ArrayList<String>();
+            errorList.add("無効なアクセスです");
+            mav.addObject("validationError", errorList);
+            mav.setViewName("/login");
+        }
+         */
+
+        List<BranchForm> branches = branchService.findAll();
+        mav.addObject("branches", branches);
+
+        List<DepartmentForm> departments = departmentService.findAll();
+        mav.addObject("departments", departments);
+
+        UserForm userForm = new UserForm();
+        mav.addObject("userForm", userForm);
+        mav.setViewName("/user-registration");
+        return mav;
+    }
+    /*
+     * ユーザー登録処理
+     */
+    @PutMapping("/signup")
+    public ModelAndView signup(@Validated @ModelAttribute("userForm")UserForm userForm, BindingResult result)  throws Exception {
+        ModelAndView mav = new ModelAndView();
+
+        // バリデーション処理
+        List<String> errorList = new ArrayList<String>();
+        if (result.hasErrors()) {
+            for (ObjectError error : result.getAllErrors()) {
+                errorList.add(error.getDefaultMessage());
+            }
+        }
+        List<UserForm> users = userService.findByAccount(userForm.getAccount());
+        if (users.size() > 0) {
+            errorList.add("アカウントが重複しています");
+        }
+        if (!errorList.isEmpty()) {
+            List<BranchForm> branches = branchService.findAll();
+            mav.addObject("branches", branches);
+            List<DepartmentForm> departments = departmentService.findAll();
+            mav.addObject("departments", departments);
+            mav.addObject("userForm", userForm);
+            mav.addObject("validationError", errorList);
+            mav.setViewName("/user-registration");
+            return mav;
+        }
+        // 登録処理
+        String encryptPassword = encrypt(userForm.getPassword());
+        userService.saveUser(userForm);
+        // ユーザ管理画面へリダイレクトに要修正
+        mav.setViewName("redirect:/top");
+        return mav;
+    }
     /*
      * コメント登録処理
      */

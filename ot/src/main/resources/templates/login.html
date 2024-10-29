@@ -21,11 +21,11 @@
 </div>
 <div class="main-contents">
     <form method="post" action="/login" th:object="${userForm}">
-        <label for="account">アカウント名</label><br />
-        <input type="text" th:field="*{account}" id="account"/><br />
+        <label>アカウント名</label><br/>
+        <input type="password" th:field="*{account}" id="account"/><br />
 
-        <label for="password">パスワード</label><br />
-        <input  type="password" th:field="*{password}" id="password"/><br />
+        <label>パスワード (確認用)</label><br/>
+        <input type="password" th:field="*{password}" id="password"/><br />
 
         <input type="submit" value="ログイン" /><br />
     </form>
