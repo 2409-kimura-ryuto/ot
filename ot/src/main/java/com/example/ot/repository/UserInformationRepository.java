@@ -23,7 +23,8 @@ public interface UserInformationRepository extends JpaRepository<UserInformation
             "INNER JOIN branches " +
             "ON users.branch_id = branches.id " +
             "INNER JOIN departments " +
-            "ON users.department_id = departments.id ",
+            "ON users.department_id = departments.id " +
+            "ORDER BY users.id",
             nativeQuery = true)
-    public List<UserInformation> findAllUserInformationByOrderByCreatedDate();
+    public List<UserInformation> findAllUserInformationByOrderById();
 }
