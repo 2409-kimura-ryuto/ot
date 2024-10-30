@@ -49,6 +49,7 @@ public class OtController {
      * ログイン画面表示処理
      */
     @GetMapping("/login")
+    @SuppressWarnings("unchecked")
     public ModelAndView loginTop() {
         ModelAndView mav = new ModelAndView();
         // form用の空のentityを準備
@@ -100,9 +101,6 @@ public class OtController {
             return mav;
         }
 
-        // 画面遷移先を指定
-        mav.setViewName("/login");
-
         //ログイン情報をセッションに格納
         session.setAttribute("user", userData);
         // 空の絞り込み条件をセット
@@ -127,6 +125,7 @@ public class OtController {
      * ホーム画面表示
      */
     @GetMapping("/top")
+    @SuppressWarnings("unchecked")
     public ModelAndView top(@ModelAttribute("filterForm") FilterForm filterForm) {
 
         ModelAndView mav = new ModelAndView();
@@ -185,7 +184,8 @@ public class OtController {
         UserForm userForm = (UserForm) session.getAttribute("user");
         messageForm.setUserId(userForm.getId());
         messageService.saveMessage(messageForm);
-        return new ModelAndView("redirect:/top");
+        mav.setViewName("redirect:/top");
+        return mav;
     }
 
     /*
