@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.ot.utils.CipherUtil.encrypt;
+import static com.example.ot.utils.HashUtil.hashWithSHA256;
 
 @Service
 public class UserService {
@@ -35,7 +35,7 @@ public class UserService {
      */
     public UserForm findUser(UserForm userForm) throws Exception {
         //パスワードの暗号化
-        String encryptPassword = encrypt(userForm.getPassword());
+        String encryptPassword = hashWithSHA256(userForm.getPassword());
         User result = (User) userRepository.findByAccountAndPassword(
                 userForm.getAccount(),
                 encryptPassword);
@@ -71,17 +71,6 @@ public class UserService {
      */
     private UserForm setUserForm(User result) {
         UserForm userForm = new UserForm();
-
-        //userForm.setId(result.getId());
-        //userForm.setAccount(result.getAccount());
-        //userForm.setPassword(result.getPassword());
-        //userForm.setName(result.getName());
-        //userForm.setBranchId(result.getBranchId());
-        //userForm.setDepartmentId(result.getDepartmentId());
-        //userForm.setIsStopped(result.getIsStopped());
-        //userForm.setCreatedDate(result.getCreatedDate());
-        //userForm.setUpdatedDate(result.getUpdatedDate());
-
         BeanUtils.copyProperties(result, userForm);
         return  userForm;
     }
@@ -115,7 +104,7 @@ public class UserService {
         User saveUser = setUserEntity(reqUser);
         //開始・停止状態を更新する際にpasswordがnullでも動作させるための条件分岐
         if (reqUser.getPassword() != null) {
-            String encryptPassword = encrypt(reqUser.getPassword());
+            String encryptPassword = hashWithSHA256(reqUser.getPassword());
             saveUser.setPassword(encryptPassword);
         }
         userRepository.save(saveUser);
