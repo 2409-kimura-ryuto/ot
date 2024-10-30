@@ -230,10 +230,13 @@ public class OtController {
                 errorList.add(error.getDefaultMessage());
             }
         }
+        // アカウント重複確認
         List<UserForm> users = userService.findByAccount(userForm.getAccount());
         if (users.size() > 0) {
             errorList.add("アカウントが重複しています");
         }
+        // 支社と部署の組み合わせ確認
+
         if (!errorList.isEmpty()) {
             List<BranchForm> branches = branchService.findAll();
             mav.addObject("branches", branches);
