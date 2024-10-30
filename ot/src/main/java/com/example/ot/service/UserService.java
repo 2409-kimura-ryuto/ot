@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.ot.utils.CipherUtil.encrypt;
+import static com.example.ot.utils.HashUtil.hashWithSHA256;
 
 @Service
 public class UserService {
@@ -35,7 +35,7 @@ public class UserService {
      */
     public UserForm findUser(UserForm userForm) throws Exception {
         //パスワードの暗号化
-        String encryptPassword = encrypt(userForm.getPassword());
+        String encryptPassword = hashWithSHA256(userForm.getPassword());
         User result = (User) userRepository.findByAccountAndPassword(
                 userForm.getAccount(),
                 encryptPassword);
@@ -106,7 +106,7 @@ public class UserService {
             UserForm refUser = findById(reqUser.getId());
             saveUser.setPassword(refUser.getPassword());
         } else {
-            String encryptPassword = encrypt(reqUser.getPassword());
+            String encryptPassword = hashWithSHA256(reqUser.getPassword());
             saveUser.setPassword(encryptPassword);
         }
         userRepository.save(saveUser);

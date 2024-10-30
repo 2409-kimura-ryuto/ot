@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static com.example.ot.utils.CipherUtil.encrypt;
 
 @Controller
 public class OtController {
@@ -246,7 +245,6 @@ public class OtController {
             return mav;
         }
         // 登録処理
-        String encryptPassword = encrypt(userForm.getPassword());
         userService.saveUser(userForm);
         // ユーザ管理画面へリダイレクトに要修正
         mav.setViewName("redirect:/top");
