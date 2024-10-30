@@ -129,11 +129,6 @@ public class OtController {
     @GetMapping("/top")
     public ModelAndView top(@ModelAttribute("filterForm") FilterForm filterForm) {
 
-        // ログインフィルター
-        // セッションからログインユーザ情報を取得する
-        // ログインユーザが総務人事部の場合か判定 & フラグの設定
-        // ログインユーザのIDを事前に決めておく必要あり→要相談
-
         ModelAndView mav = new ModelAndView();
         mav.setViewName("/top");
 
@@ -146,10 +141,19 @@ public class OtController {
         Comment emptyComment = new Comment();
         mav.addObject("emptyComment", emptyComment);
 
-        //管理者権限フィルターのエラーメッセージをmav煮詰めてセッション削除
+        //管理者権限フィルターのエラーメッセージをmavに詰めてセッション削除
         List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
         mav.addObject("errorMessages", errorMessages);
         session.removeAttribute("errorMessages");
+
+        // ユーザ管理ボタン表示フラグ
+        UserForm loginUser = (UserForm) session.getAttribute("user");
+        int admin = 0;
+        // 本社総務人事部のみフラグをONにする
+        if (loginUser.getBranchId() == 1 && loginUser.getDepartmentId() == 1) {
+            admin = 1;
+        }
+        mav.addObject("admin", admin);
 
         return mav;
     }
