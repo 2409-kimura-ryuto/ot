@@ -7,10 +7,11 @@
     <title>掲示板</title>
 </head>
 <body>
+<!-- エラーメッセージの表示 -->
 <div class="errorMessages">
     <ul>
-        <div th:if="${session.errorMessages}">
-            <li><div th:text="${session.errorMessages}" /></li>
+        <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
+            <li><div th:text="${error}" /></li>
         </div>
     </ul>
 </div>

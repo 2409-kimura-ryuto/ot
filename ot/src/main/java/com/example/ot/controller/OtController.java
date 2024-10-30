@@ -57,6 +57,10 @@ public class OtController {
         mav.setViewName("/login");
         // 準備した空のFormを保管
         mav.addObject("userForm", userForm);
+        //ログインフィルターのエラーメッセージをmav煮詰めてセッション削除
+        List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
+        mav.addObject("errorMessages", errorMessages);
+        session.removeAttribute("errorMessages");
         return mav;
     }
     /*
@@ -105,6 +109,7 @@ public class OtController {
         FilterForm filterForm = new FilterForm();
         session.setAttribute("filterForm", filterForm);
         mav.setViewName("redirect:/top");
+
         return mav;
     }
 
@@ -140,6 +145,11 @@ public class OtController {
         mav.addObject("filterForm", filterForm);
         Comment emptyComment = new Comment();
         mav.addObject("emptyComment", emptyComment);
+
+        //管理者権限フィルターのエラーメッセージをmav煮詰めてセッション削除
+        List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
+        mav.addObject("errorMessages", errorMessages);
+        session.removeAttribute("errorMessages");
 
         return mav;
     }
@@ -259,7 +269,6 @@ public class OtController {
         commentForm.setId(null);
 
         commentService.saveComment(commentForm);
-        //topが画面が実装でき次第topにリダイレクトするように変更
         return new ModelAndView("redirect:/top");
     }
 

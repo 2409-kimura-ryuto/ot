@@ -33,7 +33,7 @@ public class AdminFilter implements Filter {
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add("無効なアクセスです");
             httpSession.setAttribute("errorMessages", errorMessages);
-            //ログインページにリダイレクト
+            //トップ画面にリダイレクト
             httpResponse.sendRedirect("/top");
         }
 
