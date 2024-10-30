@@ -11,7 +11,7 @@
     <h2>新規投稿</h2>
 </div>
 <div class="main-contents">
-    <form method="post" action="/add-message" th:object="${messageForm}">
+    <form th:method="put" th:action="@{/add-message}" th:object="${messageForm}">
         <div class="form-area">
             <!-- エラーメッセージの表示 -->
             <div class="error-messages">

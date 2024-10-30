@@ -171,7 +171,7 @@ public class OtController {
     /*
      * 投稿登録処理
      */
-    @PostMapping("/add-message")
+    @PutMapping("/add-message")
     public ModelAndView addMessage(@Validated @ModelAttribute("messageForm") MessageForm messageForm, BindingResult result) {
         ModelAndView mav = new ModelAndView();
         //バリデーション処理
