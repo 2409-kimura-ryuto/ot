@@ -77,7 +77,7 @@
             <div>
                 本文 : <span th:text ="${message.text}"/>
             </div>
-            <div class="delete-button">
+            <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
                 <!-- 投稿を削除した場合、投稿に付随するコメント削除は未実装 -->
                 <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
                     <input type="submit" value="削除" />
@@ -109,7 +109,7 @@
                 <div class="text">
                     本文 : <span th:text="${comment.text}"/>
                 </div>
-                <div class="delete-button">
+                <div class="delete-button" th:if="${comment.userId} == ${session.user.id}">
                     <form th:method="delete" th:action="@{/delete-comment/{id}(id=${comment.id})}" onSubmit="return CheckDelete()">
                         <input type="submit" value="削除" />
                     </form>
