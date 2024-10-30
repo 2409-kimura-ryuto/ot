@@ -274,6 +274,7 @@ public class OtController {
 
         //commentIdセット
         commentForm.setMessageId(id);
+        commentForm.setId(null);
 
         commentService.saveComment(commentForm);
         return new ModelAndView("redirect:/top");
