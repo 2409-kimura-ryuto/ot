@@ -46,7 +46,6 @@ public class UserService {
      * ユーザ情取得処理(ユーザ登録時に使用)
      */
     public List<UserForm> findByAccount(String account) {
-        // 内容修正 (リポジトリからの戻り値をリストからUserに変更、バリデーション通るか要確認)
         User result = userRepository.findAllByAccount(account);
         List<UserForm> users = new ArrayList<>();
 
@@ -103,7 +102,7 @@ public class UserService {
     public void saveUser(UserForm reqUser) throws Exception {
         User saveUser = setUserEntity(reqUser);
         // passwordがnullまたはBlankの場合は既存のPWをDBから取得しセットする
-        if (reqUser.getPassword().isBlank() || reqUser.getPassword() == null) {
+        if (reqUser.getPassword() == null || reqUser.getPassword().isBlank()) {
             UserForm refUser = findById(reqUser.getId());
             saveUser.setPassword(refUser.getPassword());
         } else {

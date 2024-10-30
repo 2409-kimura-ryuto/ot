@@ -298,7 +298,7 @@ public class OtController {
         ModelAndView mav = new ModelAndView();
         UserForm saveForm = userService.findById(id);
         saveForm.setIsStopped(isStoppedNumber);
-        //userForm.setIsStopped(isStoppedNumber);
+        saveForm.setPassword(null);
         userService.saveUser(saveForm);
         return new ModelAndView("redirect:/user-management");
     }
