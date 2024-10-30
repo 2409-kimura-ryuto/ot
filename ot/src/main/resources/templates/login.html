@@ -10,7 +10,7 @@
 <!-- エラーメッセージの表示 -->
 <div class="errorMessages">
     <ul>
-        <div th:if="${session.errorMessages}" th:each="error : ${session.errorMessages}">
+        <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
             <li><div th:text="${error}" /></li>
         </div>
         <div th:if="${validationError}" th:each="error : ${validationError}">

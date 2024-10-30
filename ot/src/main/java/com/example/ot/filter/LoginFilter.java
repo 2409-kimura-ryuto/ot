@@ -38,7 +38,7 @@ public class LoginFilter implements Filter {
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add("ログインしてください");
             httpSession.setAttribute("errorMessages", errorMessages);
-            //ログインページにリダイレクト
+            //ログイン画面にリダイレクト
             httpResponse.sendRedirect("/login");
         }
 
