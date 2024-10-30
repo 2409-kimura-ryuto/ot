@@ -235,8 +235,18 @@ public class OtController {
         if (users.size() > 0) {
             errorList.add("アカウントが重複しています");
         }
-        // 支社と部署の組み合わせ確認
-
+        // 支社と部署の組み合わせ
+        if (userForm.getBranchId() == 1) {
+            // 本社
+            if (userForm.getDepartmentId() != 1 && userForm.getDepartmentId() != 2) {
+                errorList.add("支社と部署の組み合わせが不正です");
+            }
+        } else {
+            // 支社
+            if (userForm.getDepartmentId() != 3 && userForm.getDepartmentId() != 4) {
+                errorList.add("支社と部署の組み合わせが不正です");
+            }
+        }
         if (!errorList.isEmpty()) {
             List<BranchForm> branches = branchService.findAll();
             mav.addObject("branches", branches);
@@ -359,6 +369,18 @@ public class OtController {
         // 既存データでアカウントの重複がないことを前提にListから値を取得
         if (users.size() > 0 && users.get(0).getId() != userForm.getId()) {
             errorList.add("アカウントが重複しています");
+        }
+        // 支社と部署の組み合わせ
+        if (userForm.getBranchId() == 1) {
+            // 本社
+            if (userForm.getDepartmentId() != 1 && userForm.getDepartmentId() != 2) {
+                errorList.add("支社と部署の組み合わせが不正です");
+            }
+        } else {
+            // 支社
+            if (userForm.getDepartmentId() != 3 && userForm.getDepartmentId() != 4) {
+                errorList.add("支社と部署の組み合わせが不正です");
+            }
         }
         if (!errorList.isEmpty()) {
             List<BranchForm> branches = branchService.findAll();
