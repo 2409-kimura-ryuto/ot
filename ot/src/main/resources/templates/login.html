@@ -24,7 +24,7 @@
 <div class="main-contents">
     <form method="post" action="/login" th:object="${userForm}">
         <label>アカウント名</label><br/>
-        <input type="password" th:field="*{account}" id="account"/><br />
+        <input type="text" th:field="*{account}" id="account"/><br />
 
         <label>パスワード</label><br/>
         <input type="password" th:field="*{password}" id="password"/><br />
