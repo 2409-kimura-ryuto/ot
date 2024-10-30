@@ -19,19 +19,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(updatable = false)
+    @Column
     private String account;
 
-    @Column(updatable = false)
+    @Column
     private String password;
 
-    @Column(updatable = false)
+    @Column
     private String name;
 
-    @Column(name="branch_id", updatable = false)
+    @Column(name="branch_id")
     private int branchId;
 
-    @Column(name="department_id", updatable = false)
+    @Column(name="department_id")
     private int departmentId;
 
     // 0: 運用中, 1: 停止中

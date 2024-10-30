@@ -71,17 +71,6 @@ public class UserService {
      */
     private UserForm setUserForm(User result) {
         UserForm userForm = new UserForm();
-
-        //userForm.setId(result.getId());
-        //userForm.setAccount(result.getAccount());
-        //userForm.setPassword(result.getPassword());
-        //userForm.setName(result.getName());
-        //userForm.setBranchId(result.getBranchId());
-        //userForm.setDepartmentId(result.getDepartmentId());
-        //userForm.setIsStopped(result.getIsStopped());
-        //userForm.setCreatedDate(result.getCreatedDate());
-        //userForm.setUpdatedDate(result.getUpdatedDate());
-
         BeanUtils.copyProperties(result, userForm);
         return  userForm;
     }
@@ -113,8 +102,11 @@ public class UserService {
      */
     public void saveUser(UserForm reqUser) throws Exception {
         User saveUser = setUserEntity(reqUser);
-        //開始・停止状態を更新する際にpasswordがnullでも動作させるための条件分岐
-        if (reqUser.getPassword() != null) {
+        // passwordがnullまたはBlankの場合は既存のPWをDBから取得しセットする
+        if (reqUser.getPassword().isBlank() || reqUser.getPassword() == null) {
+            UserForm refUser = findById(reqUser.getId());
+            saveUser.setPassword(refUser.getPassword());
+        } else {
             String encryptPassword = encrypt(reqUser.getPassword());
             saveUser.setPassword(encryptPassword);
         }
