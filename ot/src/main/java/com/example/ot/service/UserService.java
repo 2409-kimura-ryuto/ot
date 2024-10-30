@@ -78,7 +78,7 @@ public class UserService {
      * UserInformationを全件取得
      */
     public List<UserInformationForm> findAllUserInformation() {
-        List<UserInformation> results = userInformationRepository.findAllUserInformationByOrderByCreatedDate();
+        List<UserInformation> results = userInformationRepository.findAllUserInformationByOrderById();
         List<UserInformationForm> userInformations = setUserInformationForm(results);
         return userInformations;
     }
