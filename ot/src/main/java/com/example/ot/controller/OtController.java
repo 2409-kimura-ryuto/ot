@@ -364,7 +364,7 @@ public class OtController {
             mav.addObject("departments", departments);
             mav.addObject("userForm", userForm);
             mav.addObject("validationError", errorList);
-            mav.setViewName("/user-registration");
+            mav.setViewName("/user-edit");
             return mav;
         }
         // パスワード未入力の場合は、そのまま更新する
