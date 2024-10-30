@@ -200,14 +200,6 @@ public class OtController {
     public ModelAndView addUser(@ModelAttribute("user")UserForm loginUser) {
 
         ModelAndView mav = new ModelAndView();
-        /* 管理者権限フィルター
-        if (user.getDepartmentId() != 1) {
-            List<String> errorList = new ArrayList<String>();
-            errorList.add("無効なアクセスです");
-            mav.addObject("validationError", errorList);
-            mav.setViewName("/login");
-        }
-         */
 
         List<BranchForm> branches = branchService.findAll();
         mav.addObject("branches", branches);
@@ -311,8 +303,10 @@ public class OtController {
                                         @PathVariable Integer id) throws Exception {
 
         ModelAndView mav = new ModelAndView();
-        userForm.setIsStopped(isStoppedNumber);
-        userService.saveUser(userForm);
+        UserForm saveForm = userService.findById(id);
+        saveForm.setIsStopped(isStoppedNumber);
+        saveForm.setPassword(null);
+        userService.saveUser(saveForm);
         return new ModelAndView("redirect:/user-management");
     }
     /*
