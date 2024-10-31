@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,8 +40,10 @@ public class MessageService {
         if (!end.isBlank()) {
             end += " 23:59:59";
         } else {
-            Date endDate = new Date();
-            end = sdFormat.format(endDate);
+            LocalDateTime now = LocalDateTime.now();
+            now = now.plusMinutes(30);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            end = now.format(dateTimeFormatter);
         }
         List<UserMessageForm> messages = null;
         try{
