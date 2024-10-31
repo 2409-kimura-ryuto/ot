@@ -22,7 +22,7 @@ public interface UserCommentRepository extends JpaRepository<UserComment, Intege
             "FROM comments " +
             "INNER JOIN users " +
             "ON comments.user_id = users.id " +
-            "ORDER BY comments.created_date DESC",
+            "ORDER BY comments.created_date",
             nativeQuery = true)
     public List<UserComment> findAllUserComment();
 }
