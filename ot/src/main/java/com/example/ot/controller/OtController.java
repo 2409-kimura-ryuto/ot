@@ -57,7 +57,7 @@ public class OtController {
         mav.setViewName("/login");
         // 準備した空のFormを保管
         mav.addObject("userForm", userForm);
-        //ログインフィルターのエラーメッセージをmav煮詰めてセッション削除
+        //ログインフィルターのエラーメッセージをmavに詰めてセッション削除
         List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
         mav.addObject("errorMessages", errorMessages);
         session.removeAttribute("errorMessages");
@@ -136,8 +136,13 @@ public class OtController {
         mav.addObject("messages", messages);
         mav.addObject("comments", comments);
         mav.addObject("filterForm", filterForm);
-        Comment emptyComment = new Comment();
-        mav.addObject("emptyComment", emptyComment);
+        CommentForm commentForm = new CommentForm();
+        mav.addObject("commentForm", commentForm);
+        //
+        List<String> commentErrorMessages = (List<String>) session.getAttribute("commentErrorMessages");
+        mav.addObject("commentErrorMessages", commentErrorMessages);
+        session.removeAttribute("commentErrorMessages");
+
 
         //管理者権限フィルターのエラーメッセージをmavに詰めてセッション削除
         List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
@@ -270,9 +275,17 @@ public class OtController {
     public ModelAndView addComment(@PathVariable Integer id, @Validated @ModelAttribute("commentForm") CommentForm commentForm, BindingResult result) {
         ModelAndView mav = new ModelAndView();
         //バリデーション処理
+        //エラーメッセージ表示後にコメント内容を保持させる処理は未実装
         if (result.hasErrors()) {
-            mav.setViewName("/top");
-            return mav;
+            List<String> errorList = new ArrayList<String>();
+            for (ObjectError error : result.getAllErrors()) {
+                errorList.add(error.getDefaultMessage());
+            }
+            session.setAttribute("commentErrorMessages", errorList);
+            //コメントidをmavに詰める(バリデーションに引っかかるコメントにのみエラーメッセージを表示させるため)
+            int commentId = commentForm.getId();
+            session.setAttribute("commentId", commentId);
+            return new ModelAndView("redirect:/top");
         }
         /*sessionからログインユーザーIDを取得しセット。messageIdはviewでcommentFormにセットする？
          ログインユーザーIDも出来ればviewでセットしたい*/

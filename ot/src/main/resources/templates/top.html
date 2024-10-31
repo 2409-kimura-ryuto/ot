@@ -52,7 +52,7 @@
     <div class="filter">
         <form mothod="get" th:action="@{/top}" th:object="${filterForm}">
             <a>
-                登校日<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
+                投稿日<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
             </a>
 
             <a>
@@ -83,15 +83,17 @@
                 </form>
             </div>
             <div class="new-comment">
-                <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${emptyComment}">
+                <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${commentForm}">
                     <div class="form-area">
-                        <div class="error-message" th:each="errorMessage : ${errorMessages}">
-                            <div class="text" th:if="${errorReportId} == ${message.id}">
-                                <span th:text="${errorMessage}"/>
-                            </div>
+                        <div class="errorMessages" th:each="errorMessage : ${commentErrorMessages}">
+                            <ul>
+                                <div class="text" th:if="${session.commentId} == ${message.id}">
+                                    <li><div th:text="${errorMessage}"/></li>
+                                </div>
+                            </ul>
                         </div>
                         <label>コメント</label>
-                        <textarea class="tweet-box" name="text" th:field="*{text}" size="20" maxlength="200" /></textarea><br/>
+                        <textarea class="tweet-box" name="text" th:field="*{text}" size="20" maxlength="1000" /></textarea><br/>
                         <input type="submit" value="送信" />
                     </div>
                 </form>
@@ -106,7 +108,7 @@
                 </div>
                 <br/>
                 <div class="text">
-                    本文 : <span th:text="${comment.text}"/>
+                    本文 : <span><pre th:text="${comment.text}"/></span>
                 </div>
                 <div class="delete-button" th:if="${comment.userId} == ${session.user.id}">
                     <form th:method="delete" th:action="@{/delete-comment/{id}(id=${comment.id})}" onSubmit="return CheckDelete()">
