@@ -8,6 +8,14 @@
 </head>
 <body>
 <div class="header-contents">
+    <!-- エラーメッセージの表示 -->
+    <div class="errorMessages">
+        <ul>
+            <div th:if="${session.errorMessages}" th:each="error : ${session.errorMessages}">
+                <li><div th:text="${error}"></div></li>
+            </div>
+        </ul>
+    </div>
     <h1>ユーザー管理</h1>
 
     <!-- ユーザー登録ボタン -->
@@ -38,7 +46,7 @@
                 <td th:text="${user.departmentName}"></td>
                 <!-- ユーザー編集ボタン -->
                 <td>
-                    <a th:href="@{/user-edit/{id}(id=${user.id})}">
+                    <a th:href="@{/user-edit-{id}(id=${user.id})}">
                         <input type="submit" value="編集">
                         <input type="hidden" name="id" th:value="${user.id}">
                     </a>
