@@ -74,7 +74,7 @@
         <br/>
         <div class="message-body">
             <div>
-                本文 : <span th:text ="${message.text}"/>
+                本文 : <pre th:text ="${message.text}" style="white-space: pre-wrap;"/>
             </div>
             <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
                 <!-- 投稿を削除した場合、投稿に付随するコメント削除は未実装 -->
