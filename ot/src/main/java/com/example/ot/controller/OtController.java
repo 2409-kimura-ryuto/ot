@@ -384,7 +384,7 @@ public class OtController {
         // アカウントのエラーチェック
         if (userForm.getAccount().isBlank()) {
             errorList.add("アカウントを入力してください");
-        } else if (!userForm.getPassword().matches("^[a-zA-Z0-9]{6,20}+$")) {
+        } else if (!userForm.getAccount().matches("^[a-zA-Z0-9]{6,20}+$")) {
             errorList.add("アカウントは半角英数字かつ6文字以上20文字以下で入力してください");
         }
         List<UserForm> users = userService.findByAccount(userForm.getAccount());
@@ -393,6 +393,11 @@ public class OtController {
             errorList.add("アカウントが重複しています");
         }
         // 支社と部署の組み合わせ
+        if (userForm.getBranchId() == 0 && userForm.getDepartmentId() == 0) {
+            UserForm refUser = userService.findById(userForm.getId());
+            userForm.setBranchId(refUser.getBranchId());
+            userForm.setDepartmentId(refUser.getDepartmentId());
+        }
         if (userForm.getBranchId() == 1) {
             // 本社
             if (userForm.getDepartmentId() != 1 && userForm.getDepartmentId() != 2) {

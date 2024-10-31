@@ -32,12 +32,12 @@
         <input type="text" th:name="name" th:value="*{name}"/><br/>
 
         <label>支社</label>
-        <select th:name="branchId">
+        <select th:name="branchId" th:disabled="${session.user.id} == ${userForm.id}">
             <option th:each="branch : ${branches}" th:value="${branch.id}" th:text="${branch.name}" th:selected="${userForm.branchId == branch.id}"></option>
         </select>
 
         <label>部署</label>
-        <select th:name="departmentId">
+        <select th:name="departmentId" th:disabled="${session.user.id} == ${userForm.id}">
             <option th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}" th:selected="${userForm.departmentId == department.id}"></option>
         </select>
 
