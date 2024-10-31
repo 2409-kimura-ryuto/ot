@@ -362,11 +362,30 @@ public class OtController {
     /*
      * ユーザー編集画面表示
      */
-    @GetMapping("/user-edit/{id}")
-    public ModelAndView userEdit(@PathVariable Integer id) {
+    @GetMapping("/user-edit-{id}")
+    public ModelAndView userEdit(@PathVariable String id,
+                                 RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView();
 
-        UserForm userForm = userService.findById(id);
+        UserForm userForm = null;
+        // URLバリデーション
+        List<String> errorList = new ArrayList<String>();
+        if (id.matches("^[0-9]+$")) {
+            try {
+                userForm = userService.findById(Integer.parseInt(id));
+            } catch(RuntimeException e) {
+                errorList.add("不正なパラメータが入力されました");
+            }
+        } else {
+            errorList.add("不正なパラメータが入力されました");
+        }
+
+        if (errorList.size() > 0) {
+            session.setAttribute("errorMessages", errorList);
+            mav.setViewName("redirect:/user-management");
+            return mav;
+        }
+
         userForm.setPassword("");
         mav.addObject("userForm", userForm);
 
