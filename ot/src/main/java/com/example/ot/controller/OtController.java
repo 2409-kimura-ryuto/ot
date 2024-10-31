@@ -271,7 +271,7 @@ public class OtController {
         // 登録処理
         userService.saveUser(userForm);
         // ユーザ管理画面へリダイレクトに要修正
-        mav.setViewName("redirect:/top");
+        mav.setViewName("redirect:/user-management");
         return mav;
     }
     /*
