@@ -358,9 +358,10 @@ public class OtController {
         List<String> errorList = new ArrayList<String>();
         if (result.hasErrors()) {
             for (ObjectError error : result.getAllErrors()) {
-                // パスワードが未入力の場合はエラー処理しない
-                if (!Objects.equals(error.getDefaultMessage(), "パスワードを入力してください") &&
-                    !Objects.equals(error.getDefaultMessage(), "パスワードは半角文字かつ6文字以上20文字以下で入力してください")) {
+                // パスワード/アカウントのエラーチェックは後で行う
+                if (Objects.equals(error.getDefaultMessage(), "氏名を入力してください") ||
+                    Objects.equals(error.getDefaultMessage(), "氏名は10文字以下で入力してください") ||
+                    Objects.equals(error.getDefaultMessage(), "パスワードと確認用パスワードが一致しません")) {
                     errorList.add(error.getDefaultMessage());
                 }
             }
@@ -368,6 +369,12 @@ public class OtController {
         // パスワードのエラーチェック(PWが入力されている場合、バリデーションを行う)
         if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9]{6,20}+$")) {
             errorList.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
+        }
+        // アカウントのエラーチェック
+        if (userForm.getAccount().isBlank()) {
+            errorList.add("アカウントを入力してください");
+        } else if (!userForm.getPassword().matches("^[a-zA-Z0-9]{6,20}+$")) {
+            errorList.add("アカウントは半角英数字かつ6文字以上20文字以下で入力してください");
         }
         List<UserForm> users = userService.findByAccount(userForm.getAccount());
         // 既存データでアカウントの重複がないことを前提にListから値を取得
