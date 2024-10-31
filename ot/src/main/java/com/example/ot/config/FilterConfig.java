@@ -16,7 +16,7 @@ public class FilterConfig {
         bean.setFilter(new LoginFilter());
         //ログイン情報が必要なURL
         bean.addUrlPatterns("/top");
-        bean.addUrlPatterns("/add-message");
+        bean.addUrlPatterns("/new");
         bean.addUrlPatterns("/user-management");
         bean.addUrlPatterns("/user-registration");
         bean.addUrlPatterns("/user-edit/*");
