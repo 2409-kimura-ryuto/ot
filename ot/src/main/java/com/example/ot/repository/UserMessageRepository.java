@@ -43,7 +43,7 @@ public interface UserMessageRepository extends JpaRepository<UserMessage, Intege
                     "FROM messages " +
                     "INNER JOIN users " +
                     "ON messages.user_id = users.id " +
-                    "WHERE messages.created_date BETWEEN :start AND :end AND text LIKE :category " +
+                    "WHERE messages.created_date BETWEEN :start AND :end AND category LIKE :category " +
                     "ORDER BY messages.created_date DESC;",
             nativeQuery = true)
     public List<UserMessage> findAllUserMessage(@Param("start") Date start, @Param("end")Date end, @Param("category")String category);
