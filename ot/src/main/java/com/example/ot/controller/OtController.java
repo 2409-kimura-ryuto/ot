@@ -247,7 +247,7 @@ public class OtController {
         if (!userForm.getAccount().isBlank() && !userForm.getAccount().matches("^[a-zA-Z0-9]{6,20}+$")) {
             errorList.add("アカウントは半角英数字かつ6文字以上20文字以下で入力してください");
         }
-        if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9]{6,20}+$")) {
+        if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9!-/:-@\\[-`{-~]{6,20}+$")) {
             errorList.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
         }
         // アカウント重複確認
@@ -387,7 +387,7 @@ public class OtController {
             }
         }
         // パスワードのエラーチェック(PWが入力されている場合、バリデーションを行う)
-        if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9]{6,20}+$")) {
+        if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9!-/:-@\\[-`{-~]{6,20}+$")) {
             errorList.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
         }
         // アカウントのエラーチェック
