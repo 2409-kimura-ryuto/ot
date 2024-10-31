@@ -361,8 +361,7 @@ public class OtController {
      * ユーザー編集画面表示
      */
     @GetMapping("/user-edit-{id}")
-    public ModelAndView userEdit(@PathVariable String id,
-                                 RedirectAttributes redirectAttributes) {
+    public ModelAndView userEdit(@PathVariable String id) {
         ModelAndView mav = new ModelAndView();
 
         UserForm userForm = null;
