@@ -10,6 +10,7 @@ import java.util.Date;
 public class UserCommentForm {
     private int id;
     private String account;
+    private String name;
     private int userId;
     private int messageId;
     private String text;

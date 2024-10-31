@@ -15,6 +15,7 @@ public interface UserMessageRepository extends JpaRepository<UserMessage, Intege
     @Query( value = "SELECT " +
                     "messages.id AS id, " +
                     "users.account AS account, " +
+                    "users.name AS name, " +
                     "users.id AS user_id, " +
                     "messages.title AS title, " +
                     "messages.text AS text, " +
@@ -32,6 +33,7 @@ public interface UserMessageRepository extends JpaRepository<UserMessage, Intege
     @Query( value = "SELECT " +
                     "messages.id AS id, " +
                     "users.account AS account, " +
+                    "users.name AS name, " +
                     "users.id AS user_id, " +
                     "messages.title AS title, " +
                     "messages.text AS text, " +

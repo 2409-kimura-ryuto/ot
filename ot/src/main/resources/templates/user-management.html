@@ -22,6 +22,8 @@
     <table>
         <thead>
             <tr>
+                <th>ID</th>
+                <th>アカウント</th>
                 <th>氏名</th>
                 <th>支社</th>
                 <th>所属部署</th>
@@ -29,6 +31,8 @@
         </thead>
         <tbody>
             <tr th:each="user: ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.account}"></td>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.branchName}"></td>
                 <td th:text="${user.departmentName}"></td>
