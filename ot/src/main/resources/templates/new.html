@@ -14,7 +14,7 @@
     <form th:method="put" th:action="@{/add-message}" th:object="${messageForm}">
         <div class="form-area">
             <!-- エラーメッセージの表示 -->
-            <div class="error-messages">
+            <div class="errorMessages">
                 <ul>
                     <div th:if="${validationError}" th:each="error : ${validationError}">
                         <li><div th:text="${error}"></div></li>

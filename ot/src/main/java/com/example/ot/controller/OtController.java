@@ -181,6 +181,17 @@ public class OtController {
         ModelAndView mav = new ModelAndView();
         //バリデーション処理
         if (result.hasErrors()) {
+            // @AssertFalseのバリデーションメッセージをセットする
+            List<String> errorList = new ArrayList<String>();
+            for (ObjectError error : result.getAllErrors()) {
+                // 全角スペース関連のエラーのみここで処理する。
+                if (Objects.equals(error.getDefaultMessage(), "件名を入力してください") ||
+                        Objects.equals(error.getDefaultMessage(), "本文を入力してください") ||
+                        Objects.equals(error.getDefaultMessage(), "カテゴリを入力してください")) {
+                    errorList.add(error.getDefaultMessage());
+                }
+            }
+            mav.addObject("validationError", errorList);
             mav.setViewName("/new");
             return mav;
         }
@@ -232,8 +243,17 @@ public class OtController {
         List<String> errorList = new ArrayList<String>();
         if (result.hasErrors()) {
             for (ObjectError error : result.getAllErrors()) {
-                errorList.add(error.getDefaultMessage());
+                if (!Objects.equals(error.getDefaultMessage(), "アカウントは半角英数字かつ6文字以上20文字以下で入力してください") &&
+                        !Objects.equals(error.getDefaultMessage(), "パスワードは半角文字かつ6文字以上20文字以下で入力してください")) {
+                    errorList.add(error.getDefaultMessage());
+                }
             }
+        }
+        if (!userForm.getAccount().isBlank() && !userForm.getAccount().matches("^[a-zA-Z0-9]{6,20}+$")) {
+            errorList.add("アカウントは半角英数字かつ6文字以上20文字以下で入力してください");
+        }
+        if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9]{6,20}+$")) {
+            errorList.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
         }
         // アカウント重複確認
         List<UserForm> users = userService.findByAccount(userForm.getAccount());
@@ -265,7 +285,7 @@ public class OtController {
         // 登録処理
         userService.saveUser(userForm);
         // ユーザ管理画面へリダイレクトに要修正
-        mav.setViewName("redirect:/top");
+        mav.setViewName("redirect:/user-management");
         return mav;
     }
     /*
@@ -371,9 +391,10 @@ public class OtController {
         List<String> errorList = new ArrayList<String>();
         if (result.hasErrors()) {
             for (ObjectError error : result.getAllErrors()) {
-                // パスワードが未入力の場合はエラー処理しない
-                if (!Objects.equals(error.getDefaultMessage(), "パスワードを入力してください") &&
-                    !Objects.equals(error.getDefaultMessage(), "パスワードは半角文字かつ6文字以上20文字以下で入力してください")) {
+                // パスワード/アカウントのエラーチェックは後で行う
+                if (Objects.equals(error.getDefaultMessage(), "氏名を入力してください") ||
+                    Objects.equals(error.getDefaultMessage(), "氏名は10文字以下で入力してください") ||
+                    Objects.equals(error.getDefaultMessage(), "パスワードと確認用パスワードが一致しません")) {
                     errorList.add(error.getDefaultMessage());
                 }
             }
@@ -382,12 +403,23 @@ public class OtController {
         if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9]{6,20}+$")) {
             errorList.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
         }
+        // アカウントのエラーチェック
+        if (userForm.getAccount().isBlank()) {
+            errorList.add("アカウントを入力してください");
+        } else if (!userForm.getAccount().matches("^[a-zA-Z0-9]{6,20}+$")) {
+            errorList.add("アカウントは半角英数字かつ6文字以上20文字以下で入力してください");
+        }
         List<UserForm> users = userService.findByAccount(userForm.getAccount());
         // 既存データでアカウントの重複がないことを前提にListから値を取得
         if (users.size() > 0 && users.get(0).getId() != userForm.getId()) {
             errorList.add("アカウントが重複しています");
         }
         // 支社と部署の組み合わせ
+        if (userForm.getBranchId() == 0 && userForm.getDepartmentId() == 0) {
+            UserForm refUser = userService.findById(userForm.getId());
+            userForm.setBranchId(refUser.getBranchId());
+            userForm.setDepartmentId(refUser.getDepartmentId());
+        }
         if (userForm.getBranchId() == 1) {
             // 本社
             if (userForm.getDepartmentId() != 1 && userForm.getDepartmentId() != 2) {

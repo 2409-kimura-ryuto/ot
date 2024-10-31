@@ -34,17 +34,4 @@ public class UserForm {
     public @AssertTrue(message = "パスワードと確認用パスワードが一致しません") boolean isEquals() {
         return password.equals(passwordRetype);
     }
-
-    /*
-    public @AssertTrue(message = "支社と部署の組み合わせが不正です") boolean combination() {
-
-        if (branchId == 1) {
-            // 本社
-            return (departmentId == 1 || departmentId == 2);
-        } else {
-            // 支社
-            return (departmentId == 3 || departmentId == 4);
-        }
-    }
-    * */
 }
