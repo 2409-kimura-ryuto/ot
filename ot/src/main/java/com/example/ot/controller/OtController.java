@@ -238,8 +238,17 @@ public class OtController {
         List<String> errorList = new ArrayList<String>();
         if (result.hasErrors()) {
             for (ObjectError error : result.getAllErrors()) {
-                errorList.add(error.getDefaultMessage());
+                if (!Objects.equals(error.getDefaultMessage(), "アカウントは半角英数字かつ6文字以上20文字以下で入力してください") &&
+                        !Objects.equals(error.getDefaultMessage(), "パスワードは半角文字かつ6文字以上20文字以下で入力してください")) {
+                    errorList.add(error.getDefaultMessage());
+                }
             }
+        }
+        if (!userForm.getAccount().isBlank() && !userForm.getAccount().matches("^[a-zA-Z0-9]{6,20}+$")) {
+            errorList.add("アカウントは半角英数字かつ6文字以上20文字以下で入力してください");
+        }
+        if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9]{6,20}+$")) {
+            errorList.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
         }
         // アカウント重複確認
         List<UserForm> users = userService.findByAccount(userForm.getAccount());
