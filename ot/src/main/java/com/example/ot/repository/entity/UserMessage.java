@@ -15,6 +15,7 @@ public class UserMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String account;
+    private String name;
 
     @Column(name="user_id")
     private int userId;

@@ -14,6 +14,7 @@ public interface UserCommentRepository extends JpaRepository<UserComment, Intege
     @Query( value = "SELECT " +
             "comments.id AS id, " +
             "users.account AS account, " +
+            "users.name AS name, " +
             "users.id AS user_id, " +
             "comments.message_id AS message_id, " +
             "comments.text AS text, " +
