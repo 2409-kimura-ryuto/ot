@@ -365,6 +365,10 @@ public class OtController {
                 }
             }
         }
+        // パスワードのエラーチェック(PWが入力されている場合、バリデーションを行う)
+        if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9]{6,20}+$")) {
+            errorList.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
+        }
         List<UserForm> users = userService.findByAccount(userForm.getAccount());
         // 既存データでアカウントの重複がないことを前提にListから値を取得
         if (users.size() > 0 && users.get(0).getId() != userForm.getId()) {
