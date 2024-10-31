@@ -40,6 +40,7 @@ public class MessageService {
         } else {
             Date endDate = new Date();
             end = sdFormat.format(endDate);
+
         }
         List<UserMessageForm> messages = null;
         try{

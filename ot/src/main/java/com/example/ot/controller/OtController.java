@@ -138,7 +138,7 @@ public class OtController {
         mav.addObject("filterForm", filterForm);
         CommentForm commentForm = new CommentForm();
         mav.addObject("commentForm", commentForm);
-        //
+        //コメントに対するエラーメッセージをmavに詰めてセッション削除
         List<String> commentErrorMessages = (List<String>) session.getAttribute("commentErrorMessages");
         mav.addObject("commentErrorMessages", commentErrorMessages);
         session.removeAttribute("commentErrorMessages");
