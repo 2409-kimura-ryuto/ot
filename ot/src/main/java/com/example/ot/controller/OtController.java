@@ -176,6 +176,17 @@ public class OtController {
         ModelAndView mav = new ModelAndView();
         //バリデーション処理
         if (result.hasErrors()) {
+            // @AssertFalseのバリデーションメッセージをセットする
+            List<String> errorList = new ArrayList<String>();
+            for (ObjectError error : result.getAllErrors()) {
+                // 全角スペース関連のエラーのみここで処理する。
+                if (Objects.equals(error.getDefaultMessage(), "件名を入力してください") ||
+                        Objects.equals(error.getDefaultMessage(), "本文を入力してください") ||
+                        Objects.equals(error.getDefaultMessage(), "カテゴリを入力してください")) {
+                    errorList.add(error.getDefaultMessage());
+                }
+            }
+            mav.addObject("validationError", errorList);
             mav.setViewName("/new");
             return mav;
         }
