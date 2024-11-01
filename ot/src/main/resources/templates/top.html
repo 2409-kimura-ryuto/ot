@@ -47,11 +47,10 @@
     <br/>
     絞り込みフォーム
     <div class="filter">
-        <form mothod="get" th:action="@{/top}" th:object="${filterForm}">
+        <form class="form-area" mothod="get" th:action="@{/top}" th:object="${filterForm}">
             <a>
                 投稿日<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
             </a>
-
             <a>
                 カテゴリー<input type="text" name="category" th:field="*{category}">
                 <input type="submit" value="絞込">
