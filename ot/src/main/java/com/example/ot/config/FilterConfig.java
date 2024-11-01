@@ -19,7 +19,7 @@ public class FilterConfig {
         bean.addUrlPatterns("/new");
         bean.addUrlPatterns("/user-management");
         bean.addUrlPatterns("/user-registration");
-        bean.addUrlPatterns("/user-edit/*");
+        bean.addUrlPatterns("/user-edit-*");
         bean.setOrder(1);
         return bean;
     }
@@ -33,7 +33,7 @@ public class FilterConfig {
         //管理者権限が必要なURL
         bean.addUrlPatterns("/user-management");
         bean.addUrlPatterns("/user-registration");
-        bean.addUrlPatterns("/user-edit/*");
+        bean.addUrlPatterns("/user-edit-*");
         bean.setOrder(2);
         return bean;
     }

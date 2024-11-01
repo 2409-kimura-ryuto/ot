@@ -367,6 +367,11 @@ public class OtController {
     @GetMapping("/user-edit/{id}")
     public ModelAndView userEdit(@PathVariable String id) {
         ModelAndView mav = new ModelAndView();
+        //ユーザー編集画面のログインフィルター処理
+        if (session.getAttribute("user") == null) {
+            mav.setViewName("redirect:/user-management");
+            return mav;
+        }
 
         UserForm userForm = null;
         // URLバリデーション
