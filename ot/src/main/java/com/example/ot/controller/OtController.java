@@ -369,6 +369,13 @@ public class OtController {
             return mav;
         }
 
+        //人事総務部でログインしている際のユーザー編集画面のログインフィルター処理
+        UserForm loginUser = (UserForm) session.getAttribute("user");
+        if (loginUser.getDepartmentId() != 1) {
+            mav.setViewName("redirect:/user-management");
+            return mav;
+        }
+
         UserForm userForm = null;
         // URLバリデーション
         List<String> errorList = new ArrayList<String>();
@@ -383,7 +390,7 @@ public class OtController {
         }
 
         if (errorList.size() > 0) {
-            session.setAttribute("errorMessages", errorList);
+            session.setAttribute("editErrorMessages", errorList);
             mav.setViewName("redirect:/user-management");
             return mav;
         }
