@@ -297,10 +297,6 @@ public class OtController {
         if (result.hasErrors()) {
             List<String> errorList = new ArrayList<String>();
             for (ObjectError error : result.getAllErrors()) {
-                // 全角スペース関連のエラーのみここで処理する。
-//                if (Objects.equals(error.getDefaultMessage(), "メッセージを入力してください")) {
-//                    errorList.add(error.getDefaultMessage());
-//                }
                 errorList.add(error.getDefaultMessage());
             }
             session.setAttribute("commentErrorMessages", errorList);
@@ -364,7 +360,7 @@ public class OtController {
     /*
      * ユーザー編集画面表示
      */
-    @GetMapping("/user-edit/{id}")
+    @GetMapping("/user-edit-{id}")
     public ModelAndView userEdit(@PathVariable String id) {
         ModelAndView mav = new ModelAndView();
         //ユーザー編集画面のログインフィルター処理
