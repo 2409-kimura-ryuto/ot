@@ -75,14 +75,12 @@ body {
     text-align: right;
     font-size: 20px;
 }
-
-
 /*
  * 要素別レイアウト
  */
  /* テーブルレイアウト */
 table {
-  text-align: center;
+  margin: auto;
   width: auto;
   border-spacing: 0;
   font-size:14px;
