@@ -7,8 +7,29 @@ body {
     background-color: #f0f8ff;
     font-size: 20px;
 }
+.header-contents{
+    text-align: center;
+}
 .main-contents {
     text-align: center;
+}
+/* login */
+.login-form {
+    display: block;
+    margin: 5% auto;
+    padding: 2%;
+    width: 20%;
+    text-align: center;
+}
+.login-form-account {
+    font-size: 20px;
+    text-align: left;
+    margin: 2%;
+}
+.login-form-password {
+    font-size: 20px;
+    text-align: left;
+    margin: 2%;
 }
 /* top */
 .message-icon {

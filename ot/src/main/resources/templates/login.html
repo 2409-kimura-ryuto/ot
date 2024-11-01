@@ -7,28 +7,30 @@
     <title>ログイン画面</title>
 </head>
 <body>
-<!-- エラーメッセージの表示 -->
-<div class="error-messages">
-    <ul>
-        <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
-            <li><div th:text="${error}" /></li>
-        </div>
-        <div th:if="${validationError}" th:each="error : ${validationError}">
-            <li><div th:text="${error}" /></li>
-        </div>
-    </ul>
-</div>
 <div class="header-contents">
     <h1>ログイン画面</h1>
+    <!-- エラーメッセージの表示 -->
+    <div class="error-messages">
+        <ul>
+            <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
+                <li><div th:text="${error}" /></li>
+            </div>
+            <div th:if="${validationError}" th:each="error : ${validationError}">
+                <li><div th:text="${error}" /></li>
+            </div>
+        </ul>
+    </div>
 </div>
 <div class="main-contents">
-    <form method="post" action="/login" th:object="${userForm}">
-        <label>アカウント名</label><br/>
-        <input type="text" th:field="*{account}" id="account"/><br />
-
-        <label>パスワード</label><br/>
-        <input type="password" th:field="*{password}" id="password"/><br />
-
+    <form class="login-form" method="post" action="/login" th:object="${userForm}">
+        <div class="login-form-account">
+            <label>アカウント名</label><br/>
+            <input type="text" th:field="*{account}" id="account"/><br />
+        </div>
+        <div class="login-form-password">
+            <label>パスワード</label><br/>
+            <input type="password" th:field="*{password}" id="password"/><br />
+        </div>
         <input type="submit"  class="btn btn--blue" value="ログイン" /><br />
     </form>
 </div>
