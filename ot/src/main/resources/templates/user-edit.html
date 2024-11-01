@@ -9,7 +9,7 @@
 <body>
 <div class="header-contents">
     <!-- エラーメッセージの表示 -->
-    <div class="errorMessages">
+    <div class="error-messages">
         <ul>
             <div th:if="${validationError}" th:each="error : ${validationError}">
                 <li><div th:text="${error}"></div></li>

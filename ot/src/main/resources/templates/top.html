@@ -10,7 +10,7 @@
 <div class="header-contents">
     <h1>掲示板</h1>
     <!-- エラーメッセージの表示 -->
-    <div class="errorMessages">
+    <div class="error-messages">
         <ul>
             <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
                 <li><div th:text="${error}" /></li>
@@ -86,7 +86,7 @@
         <div class="new-comment">
             <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${commentForm}">
                 <div class="form-area">
-                    <div class="errorMessages" th:each="errorMessage : ${commentErrorMessages}">
+                    <div class="error-messages" th:each="errorMessage : ${commentErrorMessages}">
                         <ul>
                             <div class="text" th:if="${session.commentId} == ${message.id}">
                                 <li><div th:text="${errorMessage}"/></li>
