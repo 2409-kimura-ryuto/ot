@@ -10,7 +10,6 @@ import java.util.*;
 public class CommentForm {
     private Integer id;
 
-    @NotBlank(message = "メッセージを入力してください")
     @Size(max = 500, message = "500文字以内で入力してください")
     private String text;
 
@@ -18,4 +17,8 @@ public class CommentForm {
     private int messageId;
     private Date createdDate;
     private Date updatedDate;
+
+    public @AssertFalse(message = "メッセージを入力してください") boolean isTextBlank() {
+        return text.isBlank();
+    }
 }
