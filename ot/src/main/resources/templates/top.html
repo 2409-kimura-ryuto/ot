@@ -7,17 +7,16 @@
     <title>掲示板</title>
 </head>
 <body>
-<!-- エラーメッセージの表示 -->
-<div class="errorMessages">
-    <ul>
-        <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
-            <li><div th:text="${error}" /></li>
-        </div>
-    </ul>
-</div>
-
 <div class="header-contents">
     <h1>掲示板</h1>
+    <!-- エラーメッセージの表示 -->
+    <div class="errorMessages">
+        <ul>
+            <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
+                <li><div th:text="${error}" /></li>
+            </div>
+        </ul>
+    </div>
     <div class="top-button">
         <!-- ユーザー管理ボタン(本社総務人事部のみ利用可能) -->
         <div th:if="${admin} == 1">
@@ -39,8 +38,6 @@
             </div>
         </ul>
     </div>
-</div>
-<div class="main-contents">
     <!-- 新規投稿ボタン -->
     <div class="new-message">
         <a href="/new">
@@ -61,48 +58,50 @@
             </a>
         </form>
     </div>
-    <br/>
+</div>
+<div class="main-contents">
     <!-- 投稿表示 -->
     <div class="message-icon" th:each="message : ${messages}">
-        <div class="message-header">
-            件名: <span th:text ="${message.title}"/>
-            カテゴリー: <span th:text ="${message.category}"/><br/>
-            投稿日時 : <span th:text ="${message.createdDate}"/>
-            <!-- ユーザーを表示させるためにDBから引っ張ってくる段階でusers-messagesでinner joinする -->
-            投稿者 : <span th:text ="${message.name}"/>
+        <div class="message-part">
+            <div class="message-header">
+                <div class="contributor">
+                    投稿者 : <span th:text ="${message.name}"/>
+                </div>
+                件名: <span th:text ="${message.title}"/>
+                カテゴリー: <span th:text ="${message.category}"/><br/>
+                投稿日時 : <span th:text ="${message.createdDate}"/>
+            </div>
+            <br/>
+            <div class="message-body">
+                <div>
+                    本文 : <pre th:text ="${message.text}" style="white-space: pre-wrap;"/>
+                </div>
+                <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
+                    <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
+                        <input type="submit" value="削除" />
+                    </form>
+                </div>
+            </div>
         </div>
-        <br/>
-        <div class="message-body">
-            <div>
-                本文 : <pre th:text ="${message.text}" style="white-space: pre-wrap;"/>
-            </div>
-            <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
-                <!-- 投稿を削除した場合、投稿に付随するコメント削除は未実装 -->
-                <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
-                    <input type="submit" value="削除" />
-                </form>
-            </div>
-            <div class="new-comment">
-                <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${commentForm}">
-                    <div class="form-area">
-                        <div class="errorMessages" th:each="errorMessage : ${commentErrorMessages}">
-                            <ul>
-                                <div class="text" th:if="${session.commentId} == ${message.id}">
-                                    <li><div th:text="${errorMessage}"/></li>
-                                </div>
-                            </ul>
-                        </div>
-                        <label>コメント</label>
-                        <textarea class="tweet-box" name="text" th:field="*{text}" size="20" maxlength="1000" /></textarea><br/>
-                        <input type="submit" value="送信" />
+        <div class="new-comment">
+            <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${commentForm}">
+                <div class="form-area">
+                    <div class="errorMessages" th:each="errorMessage : ${commentErrorMessages}">
+                        <ul>
+                            <div class="text" th:if="${session.commentId} == ${message.id}">
+                                <li><div th:text="${errorMessage}"/></li>
+                            </div>
+                        </ul>
                     </div>
-                </form>
-            </div>
+                    <label>コメント</label>
+                    <textarea class="tweet-box" name="text" th:field="*{text}" size="20" maxlength="1000" /></textarea><br/>
+                    <input type="submit" value="送信" />
+                </div>
+            </form>
         </div>
         <div class="comment-icon" th:each="comment : ${comments}">
             <div class="comment-area" th:if="${comment.messageId} == ${message.id}">
                 <div>
-                    <!-- ユーザーを表示させるためにDBから引っ張ってくる段階でusers-commentsでinner joinする -->
                     返信者 : <span th:text="${comment.name}"/>
                     返信日時 : <span th:text="${comment.createdDate}"/>
                 </div>
