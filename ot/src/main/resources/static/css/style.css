@@ -3,16 +3,23 @@
 	color: red;
 }
 /* 共通 */
-
+body {
+    background-color: #f0f8ff;
+}
+.main-contents {
+    text-align: center;
+}
 /* top */
-.message-header{
-    margin: 0 15px 15px 15px;
-    background-color: #faebd7;
+.message-icon {
+    display: block;
+    margin: 5% auto;
+    padding: 5%;
+    width: 60%;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 30px;
+    box-shadow: 4px 4px;
 }
-.message-body {
-    margin: 0 15px 15px 15px;
-    background-color: #fffaf0;
-}
-.comment-icon {
-    margin: 0 15px 40px 300px;
+.message-part {
+
 }
