@@ -5,6 +5,7 @@
 /* 共通 */
 body {
     background-color: #f0f8ff;
+    font-size: 20px;
 }
 .main-contents {
     text-align: center;
@@ -84,4 +85,78 @@ body {
 .btn--blue:hover {
   color: #fff;
   background: #1E90FF;
+}
+
+/* submit共通 */
+input[type="submit"] {
+    background-color: #87CEFA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 20px;
+    font-size: 16px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
+}
+
+input[type="submit"]:hover {
+    background-color: #1E90FF; /* ホバー時に背景色を変更 */
+}
+
+/* submit(削除限定) */
+input[type="submit"][value="削除"] {
+    background-color: #FF6347;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
+}
+
+input[type="submit"][value="削除"]:hover {
+    background-color: #FF0000; /* ホバー時に背景色を変更 */
+}
+
+/* button共通 */
+button[type="button"] {
+    background-color: #87CEFA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 20px;
+    font-size: 16px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
+}
+
+button[type="button"]:hover {
+    background-color: #1E90FF; /* ホバー時に背景色を変更 */
+}
+
+/* 「type="text"」共通 */
+input[type="text"] {
+    width: 150px;
+    height: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* 「type="password"」共通 */
+input[type="password"] {
+    width: 150px;
+    height: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* 「type="date"」共通 */
+input[type="date"] {
+    width: 150px;
+    height: 10px;
+    padding: 10px;
+    font-size: 16px;
 }

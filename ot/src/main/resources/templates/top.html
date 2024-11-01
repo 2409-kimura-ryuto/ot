@@ -112,9 +112,9 @@
                 </div>
                 <br/>
                 <span><pre th:text="${comment.text}"/></span>
-                <div class="delete-button" th:if="${comment.userId} == ${session.user.id}">
+                <div th:if="${comment.userId} == ${session.user.id}">
                     <form th:method="delete" th:action="@{/delete-comment/{id}(id=${comment.id})}" onSubmit="return CheckDelete()">
-                        <input type="submit" value="削除" />
+                        <input type="submit" value="削除" class="delete-button"/>
                     </form>
                 </div>
             </div>
