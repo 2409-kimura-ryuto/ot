@@ -14,7 +14,7 @@
     <form th:method="put" th:action="@{/add-message}" th:object="${messageForm}">
         <div class="form-area">
             <!-- エラーメッセージの表示 -->
-            <div class="errorMessages">
+            <div class="error-messages">
                 <ul>
                     <div th:if="${validationError}" th:each="error : ${validationError}">
                         <li><div th:text="${error}"></div></li>
@@ -24,17 +24,17 @@
             <label for="title">件名</label><br/>
             <textarea class="tweet-box" th:field="*{title}" size="50" maxlength="200" id="title" /></textarea><br/>
             <!-- 件名、本文、カテゴリーそれぞれの下にエラーメッセージ表示 -->
-            <div class="errorMessages">
+            <div class="error-messages">
                 <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span><br/>
             </div>
             <label for="text">本文</label><br/>
             <textarea class="tweet-box" th:field="*{text}" size="50" maxlength="1500" id="text" /></textarea><br/>
-            <div class="errorMessages">
+            <div class="error-messages">
                 <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></span><br/>
             </div>
             <label for="category">カテゴリー</label><br/>
             <textarea class="tweet-box" th:field="*{category}" size="50" maxlength="200" id="category" /></textarea><br/>
-            <div class="errorMessages">
+            <div class="error-messages">
                 <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span><br/>
             </div>
             <input type="submit" value="投稿" />

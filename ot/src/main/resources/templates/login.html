@@ -8,7 +8,7 @@
 </head>
 <body>
 <!-- エラーメッセージの表示 -->
-<div class="errorMessages">
+<div class="error-messages">
     <ul>
         <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
             <li><div th:text="${error}" /></li>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" lang="jp">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html" lang="jp">
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
@@ -10,7 +10,7 @@
 <div class="header-contents">
     <h1>掲示板</h1>
     <!-- エラーメッセージの表示 -->
-    <div class="errorMessages">
+    <div class="error-messages">
         <ul>
             <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
                 <li><div th:text="${error}" /></li>
@@ -64,18 +64,23 @@
     <div class="message-icon" th:each="message : ${messages}">
         <div class="message-part">
             <div class="message-header">
-                <div class="contributor">
+                <div class="message-date">
+                    投稿日時 : <span th:text ="${message.createdDate}"/>
+                </div>
+                <div class="message-contributor">
                     投稿者 : <span th:text ="${message.name}"/>
                 </div>
-                件名: <span th:text ="${message.title}"/>
-                カテゴリー: <span th:text ="${message.category}"/><br/>
-                投稿日時 : <span th:text ="${message.createdDate}"/>
+                <div class="message-title">
+                    件名: <span th:text ="${message.title}"/>
+                </div>
+                <div class="message-category">
+                    カテゴリー: <span th:text ="${message.category}"/>
+                </div>
             </div>
             <br/>
             <div class="message-body">
-                <div>
-                    本文 : <pre th:text ="${message.text}" style="white-space: pre-wrap;"/>
-                </div>
+                <div class="message-label-text">本文:</div>
+                <pre class="message-text" th:text ="${message.text}" style="white-space: pre-wrap;"/>
                 <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
                     <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
                         <input type="submit" value="削除" />
@@ -86,7 +91,7 @@
         <div class="new-comment">
             <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${commentForm}">
                 <div class="form-area">
-                    <div class="errorMessages" th:each="errorMessage : ${commentErrorMessages}">
+                    <div class="error-messages" th:each="errorMessage : ${commentErrorMessages}">
                         <ul>
                             <div class="text" th:if="${session.commentId} == ${message.id}">
                                 <li><div th:text="${errorMessage}"/></li>
@@ -106,9 +111,7 @@
                     返信日時 : <span th:text="${comment.createdDate}"/>
                 </div>
                 <br/>
-                <div class="text">
-                    本文 : <span><pre th:text="${comment.text}"/></span>
-                </div>
+                <span><pre th:text="${comment.text}"/></span>
                 <div class="delete-button" th:if="${comment.userId} == ${session.user.id}">
                     <form th:method="delete" th:action="@{/delete-comment/{id}(id=${comment.id})}" onSubmit="return CheckDelete()">
                         <input type="submit" value="削除" />
