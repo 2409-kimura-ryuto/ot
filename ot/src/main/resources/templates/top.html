@@ -64,6 +64,11 @@
     <div class="message-icon" th:each="message : ${messages}">
         <div class="message-part">
             <div class="message-header">
+                <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
+                    <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
+                        <input type="submit" value="削除"  />
+                    </form>
+                </div>
                 <div class="message-date">
                     投稿日時 : <span th:text ="${message.createdDate}"/>
                 </div>
@@ -81,16 +86,11 @@
             <div class="message-body">
                 <div class="message-label-text">本文:</div>
                 <pre class="message-text" th:text ="${message.text}" style="white-space: pre-wrap;"/>
-                <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
-                    <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
-                        <input type="submit" value="削除"  />
-                    </form>
-                </div>
             </div>
         </div>
         <div class="new-comment">
             <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${commentForm}">
-                <div class="form-area">
+                <div class="comment-box">
                     <div class="error-messages" th:each="errorMessage : ${commentErrorMessages}">
                         <ul>
                             <div class="text" th:if="${session.commentId} == ${message.id}">
@@ -114,9 +114,10 @@
                 <pre class="comment-text" th:text="${comment.text}"/>
                 <div th:if="${comment.userId} == ${session.user.id}">
                     <form th:method="delete" th:action="@{/delete-comment/{id}(id=${comment.id})}" onSubmit="return CheckDelete()">
-                        <input type="submit" value="削除" class="delete-button"/>
+                        <input type="submit" value="削除" class="comment-delete"/>
                     </form>
                 </div>
+                <br><br><br>
             </div>
         </div>
     </div>

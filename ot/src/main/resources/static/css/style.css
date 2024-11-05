@@ -26,6 +26,13 @@ li {
     width: 20%;
     text-align: center;
 }
+.comment-box {
+    display: block;
+    margin-left: auto;
+    padding: 2%;
+    width: 20%;
+    text-align: center;
+}
 .form-content {
     font-size: 20px;
     margin: 4%;
@@ -43,6 +50,7 @@ textarea {
  */
 /* top */
 .message-icon {
+    position: relative;
     display: block;
     margin: 5% auto;
     padding: 2%;
@@ -205,8 +213,26 @@ input[type="submit"]:hover {
 
 /* submit(削除) */
 input[type="submit"][value="削除"] {
+    top: 0;
+    float: right;
     background-color: #FF6347;
-    float: left;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    /*padding: 10px 20px;*/
+    font-size: 16px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
+}
+
+input[type="submit"][value="削除"]:hover {
+    background-color: #FF0000; /* ホバー時に背景色を変更 */
+}
+
+/* submit(コメント削除) */
+input[type="submit"][value="削除"].comment-delete {
+    background-color: #FF6347;
+    float: right;
     color: white;
     border: none;
     border-radius: 5px;
