@@ -110,7 +110,7 @@ table {
   margin: auto;
   width: auto;
   border-spacing: 0;
-  font-size:14px;
+  font-size:20px;
 }
 table th {
   color: #fff;
@@ -140,6 +140,7 @@ table tr td {
   border-bottom: 1px solid #84b2e0;
   border-left: 1px solid #84b2e0;
   text-align: center;
+  text-size: 20px;
 }
 table tr td:last-child {
   border-right: 1px solid #84b2e0;
