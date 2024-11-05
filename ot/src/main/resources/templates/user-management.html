@@ -25,7 +25,9 @@
         </a>
     </div>
     <br/>
-
+    <form action="./top">
+        <input type="submit" value="戻る" />
+    </form>
     <!-- ユーザー一覧表示 -->
     <table>
         <thead>
@@ -35,7 +37,7 @@
                 <th>氏名</th>
                 <th>支社</th>
                 <th>所属部署</th>
-                <th></th>
+                <th>アカウント状態</th>
                 <th></th>
             </tr>
         </thead>
@@ -46,13 +48,6 @@
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.branchName}"></td>
                 <td th:text="${user.departmentName}"></td>
-                <!-- ユーザー編集ボタン -->
-                <td>
-                    <a th:href="@{/user-edit-{id}(id=${user.id})}">
-                        <input type="submit" value="編集">
-                        <input type="hidden" name="id" th:value="${user.id}">
-                    </a>
-                </td>
                 <td>
                     <th:block th:switch="${user.isStopped}">
                         <span th:case="0">
@@ -68,6 +63,13 @@
                             </form>
                         </span>
                     </th:block>
+                </td>
+                <!-- ユーザー編集ボタン -->
+                <td>
+                    <a th:href="@{/user-edit-{id}(id=${user.id})}">
+                        <input type="submit" value="編集">
+                        <input type="hidden" name="id" th:value="${user.id}">
+                    </a>
                 </td>
             </tr>
         </tbody>
