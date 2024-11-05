@@ -40,7 +40,7 @@
     </div>
     絞り込みフォーム
     <div class="filter">
-        <form class="form-area" mothod="get" th:action="@{/top}" th:object="${filterForm}">
+        <form mothod="get" th:action="@{/top}" th:object="${filterForm}">
             <a>
                 投稿日<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
             </a>
@@ -59,6 +59,7 @@
     <br/>
 </div>
 <div class="main-contents">
+    <h2>投稿一覧</h2>
     <!-- 投稿表示 -->
     <div class="message-icon" th:each="message : ${messages}">
         <div class="message-part">
@@ -97,8 +98,8 @@
                             </div>
                         </ul>
                     </div>
-                    <label>コメント</label>
-                    <textarea class="tweet-box" name="text" th:field="*{text}" size="20" maxlength="1000" /></textarea><br/>
+                    <label>コメント</label><br/>
+                    <textarea class="comment-box" name="text" th:field="*{text}" size="20" maxlength="1000" /></textarea><br/>
                     <input type="submit" value="送信" />
                 </div>
             </form>
@@ -110,7 +111,7 @@
                     返信日時 : <span th:text="${comment.createdDate}"/>
                 </div>
                 <br/>
-                <span><pre th:text="${comment.text}"/></span>
+                <pre class="comment-text" th:text="${comment.text}"/>
                 <div th:if="${comment.userId} == ${session.user.id}">
                     <form th:method="delete" th:action="@{/delete-comment/{id}(id=${comment.id})}" onSubmit="return CheckDelete()">
                         <input type="submit" value="削除" class="delete-button"/>

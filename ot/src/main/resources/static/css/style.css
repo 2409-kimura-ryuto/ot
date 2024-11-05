@@ -33,6 +33,11 @@ li {
 select {
     font-size: 20px;
 }
+textarea {
+    text-align: left;
+    display: block;
+    margin: 0 auto;
+}
 /*
  * ページ別レイアウト
  */
@@ -70,15 +75,22 @@ select {
 .message-text {
     text-align: left;
     font-size: 20px;
+    word-break: break-all;
 }
 .new-comment {
-    text-align: right;
+    text-align: center;
     font-size: 20px;
+}
+.comment-box {
+    font-size: 20px;
+    width: 300%;
+    height: 100px;
 }
 .comment-icon {
     text-align: right;
     font-size: 20px;
 }
+
 /*
  * 要素別レイアウト
  */
