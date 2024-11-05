@@ -21,7 +21,7 @@
         <!-- ユーザー管理ボタン(本社総務人事部のみ利用可能) -->
         <div th:if="${admin} == 1">
             <a href="/user-management">
-                <button type="button">ユーザー管理</button>
+                <button type="button" class="user-management">ユーザー管理</button>
             </a>
         </div>
         <div >
@@ -38,13 +38,6 @@
             </div>
         </ul>
     </div>
-    <!-- 新規投稿ボタン -->
-    <div class="new-message">
-        <a href="/new">
-            <button class="new-button" type="button">新規投稿</button>
-        </a>
-    </div>
-    <br/>
     絞り込みフォーム
     <div class="filter">
         <form class="form-area" mothod="get" th:action="@{/top}" th:object="${filterForm}">
@@ -57,6 +50,13 @@
             </a>
         </form>
     </div>
+    <!-- 新規投稿ボタン -->
+    <div class="new-message">
+        <a href="/new">
+            <button class="new-button" type="button">新規投稿</button>
+        </a>
+    </div>
+    <br/>
 </div>
 <div class="main-contents">
     <!-- 投稿表示 -->
@@ -82,7 +82,7 @@
                 <pre class="message-text" th:text ="${message.text}" style="white-space: pre-wrap;"/>
                 <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
                     <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
-                        <input type="submit" value="削除" />
+                        <input type="submit" value="削除"  />
                     </form>
                 </div>
             </div>

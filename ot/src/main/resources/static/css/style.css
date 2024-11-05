@@ -191,9 +191,10 @@ input[type="submit"]:hover {
     background-color: #1E90FF; /* ホバー時に背景色を変更 */
 }
 
-/* submit(削除限定) */
+/* submit(削除) */
 input[type="submit"][value="削除"] {
     background-color: #FF6347;
+    float: left;
     color: white;
     border: none;
     border-radius: 5px;
@@ -205,6 +206,59 @@ input[type="submit"][value="削除"] {
 
 input[type="submit"][value="削除"]:hover {
     background-color: #FF0000; /* ホバー時に背景色を変更 */
+}
+
+/* submit(停止) */
+input[type="submit"][value="停止"] {
+    background-color: #FF6347;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
+}
+
+input[type="submit"][value="停止"]:hover {
+    background-color: #FF0000; /* ホバー時に背景色を変更 */
+}
+
+/* submit(復活) */
+input[type="submit"][value="復活"] {
+    background-color: #3CB371;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
+}
+
+input[type="submit"][value="復活"]:hover {
+    background-color: #228B22; /* ホバー時に背景色を変更 */
+}
+
+/* submit(ログアウト) */
+input[type="submit"][value="ログアウト"] {
+    background-color: #87CEFA;
+    float: left;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
+    position: absolute; /* ボタンを右上に配置 */
+    top: 0;
+    right: 0;
+    margin-left: 10px;
+}
+
+input[type="submit"][value="ログアウト"]:hover {
+    background-color: #1E90FF; /* ホバー時に背景色を変更 */
 }
 
 /* button共通 */
@@ -224,12 +278,34 @@ button[type="button"]:hover {
     background-color: #1E90FF; /* ホバー時に背景色を変更 */
 }
 
+/* 新規投稿ボタン */
+button[type="button"].user-management {
+    background-color: #87CEFA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 20px;
+    font-size: 16px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
+    position: absolute;
+    top: 0;
+    right: 130px;
+    margin-left: 10px;
+}
+
+button[type="button"].user-management:hover {
+    background-color: #1E90FF; /* ホバー時に背景色を変更 */
+}
+
 /* 「type="text"」共通 */
 input[type="text"] {
     width: 150px;
     height: 10px;
     padding: 10px;
     font-size: 16px;
+
 }
 
 /* 「type="password"」共通 */
