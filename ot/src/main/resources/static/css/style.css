@@ -14,12 +14,16 @@ body {
 }
 .error-messages {
 	color: red;
+	text-align: center;
+}
+li {
+	list-style-type: none;
 }
 .form-area {
     display: block;
     margin: 5% auto;
     padding: 2%;
-    width: 20%;
+    width: 30%;
     text-align: center;
 }
 .form-content {
@@ -28,6 +32,9 @@ body {
     margin: 2%;
     /* tweet-boxのサイズと合わせれば良い */
     width: auto;
+}
+select {
+    font-size: 20px;
 }
 /*
  * ページ別レイアウト
