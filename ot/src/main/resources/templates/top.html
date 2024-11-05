@@ -99,13 +99,13 @@
                         </ul>
                     </div>
                     <label class="">コメント</label><br/>
-                    <textarea class="comment-text" name="text" th:field="*{text}" size="20" maxlength="1000" /></textarea><br/>
+                    <textarea class="comment-area" name="text" th:field="*{text}" size="20" maxlength="1000" /></textarea><br/>
                     <input type="submit" value="送信" />
                 </div>
             </form>
         </div>
         <div class="comment-icon" th:each="comment : ${comments}">
-            <div class="comment-area" th:if="${comment.messageId} == ${message.id}">
+            <div th:if="${comment.messageId} == ${message.id}">
                 <div>
                     返信者 : <span th:text="${comment.name}"/>
                     返信日時 : <span th:text="${comment.createdDate}"/>
