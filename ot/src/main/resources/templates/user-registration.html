@@ -8,6 +8,7 @@
 </head>
 <body>
 <div class="header-contents">
+    <h1>ユーザー登録画面</h1>
     <!-- エラーメッセージの表示 -->
     <div class="error-messages">
         <ul>
@@ -20,19 +21,19 @@
 <div class="main-contents">
     <form class="form-area" th:method="put" action="/signup" th:object="${userForm}">
         <div class="form-content">
-            <label>アカウント</label>
+            <label>アカウント</label><br/>
             <input type="text" th:name="account" th:value="*{account}"/> <br/>
         </div>
         <div class="form-content">
-            <label>パスワード</label>
+            <label>パスワード</label><br/>
             <input type="password" th:name="password" th:value="*{password}"/><br/>
         </div>
         <div class="form-content">
-            <label>パスワード確認用</label>
+            <label>パスワード確認用</label><br/>
             <input type="password" th:name="passwordRetype" th:value="*{passwordRetype}"/><br/>
         </div>
         <div class="form-content">
-            <label>氏名</label>
+            <label>氏名</label><br/>
             <input type="text" th:name="name" th:value="*{name}"/><br/>
         </div>
         <div class="form-content">
