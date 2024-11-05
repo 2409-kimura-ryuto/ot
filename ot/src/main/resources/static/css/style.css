@@ -26,13 +26,6 @@ li {
     width: 20%;
     text-align: center;
 }
-.comment-box {
-    display: block;
-    margin-left: auto;
-    padding: 2%;
-    width: 20%;
-    text-align: center;
-}
 .form-content {
     font-size: 20px;
     margin: 4%;
@@ -98,6 +91,7 @@ textarea {
     margin-left: auto;
     padding: 2%;
     text-align: right;
+    width: 20%;
 }
 .comment-icon {
     text-align: right;
