@@ -90,9 +90,10 @@ textarea {
     font-size: 20px;
 }
 .comment-box {
-    font-size: 20px;
-    width: 300%;
-    height: 100px;
+    display: block;
+    margin-left: auto;
+    padding: 2%;
+    text-align: right;
 }
 .comment-icon {
     text-align: right;
