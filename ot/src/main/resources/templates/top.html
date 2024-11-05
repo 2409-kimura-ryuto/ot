@@ -111,7 +111,7 @@
                     返信日時 : <span th:text="${comment.createdDate}"/>
                 </div>
                 <br/>
-                <pre class="comment-text" th:text="${comment.text}"/>
+                <pre class="comment-text" th:text="${comment.text}" style="white-space: pre-wrap;"/>
                 <div th:if="${comment.userId} == ${session.user.id}">
                     <form th:method="delete" th:action="@{/delete-comment/{id}(id=${comment.id})}" onSubmit="return CheckDelete()">
                         <input type="submit" value="削除" class="comment-delete"/>
