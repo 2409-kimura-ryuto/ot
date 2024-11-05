@@ -103,9 +103,12 @@ textarea {
     word-break: break-all;
 }
 .comment-area {
-    text-align: right;
+    margin:0 0 0 auto;
+    text-align: left;
     font-size: 20px;
-    height: 100px;
+    height: 200px;
+    box-sizing: border-box;
+    width: 100%;
 }
 /*
  * 要素別レイアウト
