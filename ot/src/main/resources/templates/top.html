@@ -44,7 +44,7 @@
         </ul>
     </div>
     絞り込みフォーム
-    <div class="filter">
+    <div>
         <form mothod="get" th:action="@{/top}" th:object="${filterForm}">
             <a>
                 投稿日<input type="date" name="start" th:field="*{start}"> - <input type="date" name="end" th:field="*{end}">
@@ -56,7 +56,7 @@
         </form>
     </div>
     <!-- 新規投稿ボタン -->
-    <div class="new-message">
+    <div>
         <a href="/new">
             <button class="new-button" type="button">新規投稿</button>
         </a>
@@ -67,31 +67,27 @@
     <h2>投稿一覧</h2>
     <!-- 投稿表示 -->
     <div class="message-icon" th:each="message : ${messages}">
-        <div class="message-part">
-            <div class="message-header">
-                <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
-                    <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
-                        <input type="submit" value="削除"  />
-                    </form>
-                </div>
-                <div class="message-date">
-                    投稿日時 : <span th:text ="${message.postDate}"/>
-                </div>
-                <div class="message-contributor">
-                    投稿者 : <span th:text ="${message.name}"/>
-                </div>
-                <div class="message-title">
-                    件名: <span th:text ="${message.title}"/>
-                </div>
-                <div class="message-category">
-                    カテゴリー: <span th:text ="${message.category}"/>
-                </div>
-            </div>
-            <br/>
-            <div class="message-body">
-                <div class="message-label-text">本文:</div>
-                <pre class="message-text" th:text ="${message.text}" style="white-space: pre-wrap;"/>
-            </div>
+        <div class="delete-button" th:if="${message.userId} == ${session.user.id}">
+            <form th:method="delete" th:action="@{/delete-message/{id}(id=${message.id})}" onSubmit="return CheckDelete()">
+                <input type="submit" value="削除"  />
+            </form>
+        </div>
+        <div class="message-date">
+            投稿日時 : <span th:text ="${message.postDate}"/>
+        </div>
+        <div class="message-contributor">
+            投稿者 : <span th:text ="${message.name}"/>
+        </div>
+        <div class="message-title">
+            件名: <span th:text ="${message.title}"/>
+        </div>
+        <div class="message-category">
+            カテゴリー: <span th:text ="${message.category}"/>
+        </div>
+        <br/>
+        <div class="message-body">
+            <div class="message-label-text">本文:</div>
+            <pre class="message-text" th:text ="${message.text}" style="white-space: pre-wrap;"/>
         </div>
         <div class="new-comment">
             <form method="post" th:action="@{/add-comment/{id}(id=${message.id})}" th:object="${commentForm}">

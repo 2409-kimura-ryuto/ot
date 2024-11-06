@@ -22,7 +22,7 @@
     </div>
 </div>
 <div class="main-contents">
-    <form class="form-area login-form" method="post" action="/login" th:object="${userForm}">
+    <form class="form-area" method="post" action="/login" th:object="${userForm}">
         <div class="form-content">
             <label>アカウント名</label><br/>
             <input type="text" th:field="*{account}" id="account"/><br />
