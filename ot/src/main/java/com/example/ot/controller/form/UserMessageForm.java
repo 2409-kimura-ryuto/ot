@@ -18,4 +18,7 @@ public class UserMessageForm {
     private String category;
     private Date createdDate;
     private Date updatedDate;
+
+    // トップ画面の表示用
+    private String postDate;
 }

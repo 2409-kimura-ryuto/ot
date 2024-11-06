@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -126,6 +127,14 @@ public class OtController {
     public ModelAndView top(@ModelAttribute("filterForm") FilterForm filterForm) {
 
         ModelAndView mav = new ModelAndView();
+
+        // バリデーション
+        if ((!filterForm.getStart().isBlank() && !filterForm.getEnd().isBlank()) && Date.valueOf(filterForm.getEnd()).before(Date.valueOf(filterForm.getStart()))) {
+            ArrayList<String> filterErrorMessages = new ArrayList<>();
+            filterErrorMessages.add("終了日は開始日よりも後になるようにしてください");
+            mav.addObject("filterErrorMessages", filterErrorMessages);
+        }
+
         mav.setViewName("/top");
 
         List<UserMessageForm> messages = messageService.findAllUserMessage(filterForm.getStart(), filterForm.getEnd(), filterForm.getCategory());
