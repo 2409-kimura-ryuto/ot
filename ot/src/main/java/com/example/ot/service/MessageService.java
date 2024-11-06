@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -69,9 +70,21 @@ public class MessageService {
     private List<UserMessageForm> setUserMessageForm(List<UserMessage> results) {
         List<UserMessageForm> messages = new ArrayList<>();
 
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         for (UserMessage result : results) {
             UserMessageForm message = new UserMessageForm();
             BeanUtils.copyProperties(result, message);
+            // 投稿日時の表記設定
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(message.getCreatedDate());
+            String postDate = String.valueOf(calendar.get(Calendar.YEAR)) + "年" +
+                              String.valueOf(calendar.get(Calendar.MONTH) + 1) + "月" +
+                              String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)) + "日　" +
+                              String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)) + "時" +
+                              String.valueOf(calendar.get(Calendar.MINUTE)) + "分" +
+                              String.valueOf(calendar.get(Calendar.SECOND)) + "秒";
+            message.setPostDate(postDate);
             messages.add(message);
         }
         return messages;
