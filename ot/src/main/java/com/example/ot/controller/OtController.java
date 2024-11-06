@@ -56,9 +56,9 @@ public class OtController {
         // 準備した空のFormを保管
         mav.addObject("userForm", userForm);
         //ログインフィルターのエラーメッセージをmavに詰めてセッション削除
-        List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
-        mav.addObject("errorMessages", errorMessages);
-        session.removeAttribute("errorMessages");
+        List<String> errorMessages = (List<String>) session.getAttribute("errorMessagesLoginFilter");
+        mav.addObject("errorMessagesLoginFilter", errorMessages);
+        session.removeAttribute("errorMessagesLoginFilter");
         return mav;
     }
     /*
@@ -147,7 +147,7 @@ public class OtController {
 
         //管理者権限フィルターのエラーメッセージをmavに詰めてセッション削除
         List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
-        mav.addObject("errorMessages", errorMessages);
+        mav.addObject("errorMessagesAdminFilter", errorMessages);
         session.removeAttribute("errorMessages");
 
         // ユーザ管理ボタン表示フラグ
@@ -396,7 +396,7 @@ public class OtController {
         }
 
         if (errorList.size() > 0) {
-            redirectAttributes.addFlashAttribute("editErrorMessages", errorList);
+            redirectAttributes.addFlashAttribute("errorMessagesURLValidation", errorList);
             mav.setViewName("redirect:/user-management");
             return mav;
         }
