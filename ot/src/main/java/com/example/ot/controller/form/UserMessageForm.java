@@ -1,6 +1,5 @@
 package com.example.ot.controller.form;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 

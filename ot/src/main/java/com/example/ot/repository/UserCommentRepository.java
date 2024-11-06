@@ -1,6 +1,5 @@
 package com.example.ot.repository;
 
-import com.example.ot.repository.entity.Comment;
 import com.example.ot.repository.entity.UserComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface UserCommentRepository extends JpaRepository<UserComment, Integer> {
-    // postgreSQLにて動作確認済み
     @Query( value = "SELECT " +
             "comments.id AS id, " +
             "users.account AS account, " +

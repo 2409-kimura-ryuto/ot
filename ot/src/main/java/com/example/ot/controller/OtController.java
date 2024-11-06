@@ -1,8 +1,6 @@
 package com.example.ot.controller;
 
 import com.example.ot.controller.form.*;
-import com.example.ot.repository.entity.Comment;
-import com.example.ot.repository.entity.User;
 import com.example.ot.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
