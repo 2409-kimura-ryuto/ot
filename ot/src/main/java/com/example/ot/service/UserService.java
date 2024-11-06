@@ -1,11 +1,7 @@
 package com.example.ot.service;
 
-import com.example.ot.controller.form.MessageForm;
-import com.example.ot.repository.entity.Message;
-import com.example.ot.controller.form.UserCommentForm;
 import com.example.ot.controller.form.UserInformationForm;
 import com.example.ot.repository.UserInformationRepository;
-import com.example.ot.repository.entity.UserComment;
 import com.example.ot.repository.entity.UserInformation;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +10,6 @@ import com.example.ot.repository.UserRepository;
 import com.example.ot.repository.entity.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;

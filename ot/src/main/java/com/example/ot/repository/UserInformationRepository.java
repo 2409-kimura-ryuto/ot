@@ -1,6 +1,5 @@
 package com.example.ot.repository;
 
-import com.example.ot.repository.entity.UserComment;
 import com.example.ot.repository.entity.UserInformation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

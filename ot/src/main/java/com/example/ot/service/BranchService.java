@@ -37,5 +37,4 @@ public class BranchService {
         }
         return branches;
     }
-
 }
