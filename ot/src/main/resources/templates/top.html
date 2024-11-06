@@ -37,6 +37,11 @@
                 <li><div th:text="${error}"></div></li>
             </div>
         </ul>
+        <ul>
+            <div th:if="${filterErrorMessages}" th:each="error : ${filterErrorMessages}">
+                <li><div th:text="${error}"></div></li>
+            </div>
+        </ul>
     </div>
     絞り込みフォーム
     <div class="filter">
