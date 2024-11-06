@@ -267,8 +267,8 @@ input[type="submit"][value="削除"]:hover {
 }
 
 /* submit(停止) */
-input[type="submit"][value="停止に変更"] {
-    background-color: #FF6347;
+input[type="submit"][value="変更"] {
+    background-color: #87CEFA;
     color: white;
     border: none;
     border-radius: 5px;
@@ -278,12 +278,12 @@ input[type="submit"][value="停止に変更"] {
     transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
 }
 
-input[type="submit"][value="停止に変更"]:hover {
-    background-color: #FF0000; /* ホバー時に背景色を変更 */
+input[type="submit"][value="変更"]:hover {
+    background-color: #1E90FF; /* ホバー時に背景色を変更 */
 }
 
 /* submit(復活) */
-input[type="submit"][value="復活に変更"] {
+input[type="submit"][value="復活"] {
     background-color: #3CB371;
     color: white;
     border: none;
@@ -294,8 +294,16 @@ input[type="submit"][value="復活に変更"] {
     transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
 }
 
-input[type="submit"][value="復活に変更"]:hover {
-    background-color: #228B22; /* ホバー時に背景色を変更 */
+/* submit(停止) */
+input[type="submit"][value="停止"] {
+    background-color: #FF6347;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer; /* カーソルをポインターに変更 */
+    transition: background-color 0.3s; /* 色変化にアニメーションを追加 */
 }
 
 /* submit(ログアウト) */
