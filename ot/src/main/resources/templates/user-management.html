@@ -32,7 +32,6 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
                 <th>アカウント</th>
                 <th>氏名</th>
                 <th>支社</th>
@@ -43,7 +42,6 @@
         </thead>
         <tbody>
             <tr th:each="user: ${users}">
-                <td th:text="${user.id}"></td>
                 <td th:text="${user.account}"></td>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.branchName}"></td>
@@ -52,13 +50,13 @@
                     <th:block th:switch="${user.isStopped}">
                         <span th:case="0">
                             <form th:method="post" th:action="@{/change-isStopped/{id}(id=${user.id})}" onSubmit="return CheckChange()">
-                                <input type="submit" th:value="停止" th:disabled="${session.user.id} == ${user.id}">
+                                <input type="submit" th:value="停止に変更" th:disabled="${session.user.id} == ${user.id}">
                                 <input type="hidden" th:name="isStopped" th:value="1" class="isStoppedNumber">
                             </form>
                         </span>
                         <span th:case="1">
                             <form th:method="post" th:action="@{/change-isStopped/{id}(id=${user.id})}" th:object="${userForm}" onSubmit="return CheckChange()">
-                                <input type="submit" th:value="復活">
+                                <input type="submit" th:value="復活に変更">
                                 <input type="hidden" th:name="isStopped" th:value="0" class="isStoppedNumber">
                             </form>
                         </span>

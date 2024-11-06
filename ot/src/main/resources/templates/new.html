@@ -23,7 +23,7 @@
             </div>
             <div class="form-content">
                 <label for="title">件名</label><br/>
-                <textarea class="tweet-box" th:field="*{title}" size="50" maxlength="200" id="title" /></textarea><br/>
+                <input type="text" th:field="*{title}" id="title" /><br/>
                 <!-- 件名、本文、カテゴリーそれぞれの下にエラーメッセージ表示 -->
                 <div class="error-messages">
                     <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span><br/>
@@ -38,7 +38,7 @@
             </div>
             <div class="form-content">
                 <label for="category">カテゴリー</label><br/>
-                <textarea class="tweet-box" th:field="*{category}" size="50" maxlength="200" id="category" /></textarea><br/>
+                <input type="text" th:field="*{category}" id="category" /><br/>
                 <div class="error-messages">
                     <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span><br/>
                 </div>
