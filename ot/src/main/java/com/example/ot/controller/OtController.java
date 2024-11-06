@@ -13,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Date;
 import java.util.List;
@@ -143,11 +144,6 @@ public class OtController {
         mav.addObject("filterForm", filterForm);
         CommentForm commentForm = new CommentForm();
         mav.addObject("commentForm", commentForm);
-        //コメントに対するエラーメッセージをmavに詰めてセッション削除
-        List<String> commentErrorMessages = (List<String>) session.getAttribute("commentErrorMessages");
-        mav.addObject("commentErrorMessages", commentErrorMessages);
-        session.removeAttribute("commentErrorMessages");
-
 
         //管理者権限フィルターのエラーメッセージをmavに詰めてセッション削除
         List<String> errorMessages = (List<String>) session.getAttribute("errorMessages");
@@ -297,7 +293,10 @@ public class OtController {
      * コメント登録処理
      */
     @PostMapping("/add-comment/{id}")
-    public ModelAndView addComment(@PathVariable Integer id, @Validated @ModelAttribute("commentForm") CommentForm commentForm, BindingResult result) {
+    public ModelAndView addComment(@PathVariable Integer id,
+                                   @Validated @ModelAttribute("commentForm") CommentForm commentForm,
+                                   BindingResult result,
+                                   RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView();
         //バリデーション処理
         //エラーメッセージ表示後にコメント内容を保持させる処理は未実装
@@ -306,7 +305,7 @@ public class OtController {
             for (ObjectError error : result.getAllErrors()) {
                 errorList.add(error.getDefaultMessage());
             }
-            session.setAttribute("commentErrorMessages", errorList);
+            redirectAttributes.addFlashAttribute("commentErrorMessages", errorList);
             //コメントidをmavに詰める(バリデーションに引っかかるコメントにのみエラーメッセージを表示させるため)
             int commentId = commentForm.getId();
             session.setAttribute("commentId", commentId);
@@ -368,7 +367,7 @@ public class OtController {
      * ユーザー編集画面表示
      */
     @GetMapping("/user-edit-{id}")
-    public ModelAndView userEdit(@PathVariable String id) {
+    public ModelAndView userEdit(@PathVariable String id, RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView();
         //ユーザー編集画面のログインフィルター処理
         if (session.getAttribute("user") == null) {
@@ -397,7 +396,7 @@ public class OtController {
         }
 
         if (errorList.size() > 0) {
-            session.setAttribute("editErrorMessages", errorList);
+            redirectAttributes.addFlashAttribute("editErrorMessages", errorList);
             mav.setViewName("redirect:/user-management");
             return mav;
         }
