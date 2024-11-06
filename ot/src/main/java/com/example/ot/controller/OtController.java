@@ -123,15 +123,17 @@ public class OtController {
      */
     @GetMapping("/top")
     @SuppressWarnings("unchecked")
-    public ModelAndView top(@ModelAttribute("filterForm") FilterForm filterForm) {
+    public ModelAndView top(@Validated @ModelAttribute("filterForm") FilterForm filterForm, BindingResult result) {
 
         ModelAndView mav = new ModelAndView();
 
         // バリデーション
-        if ((!filterForm.getStart().isBlank() && !filterForm.getEnd().isBlank()) && Date.valueOf(filterForm.getEnd()).before(Date.valueOf(filterForm.getStart()))) {
-            ArrayList<String> filterErrorMessages = new ArrayList<>();
-            filterErrorMessages.add("終了日は開始日よりも後になるようにしてください");
-            mav.addObject("filterErrorMessages", filterErrorMessages);
+        if (result.hasErrors()) {
+            List<String> errorList = new ArrayList<String>();
+            for (ObjectError error : result.getAllErrors()) {
+                errorList.add(error.getDefaultMessage());
+            }
+            mav.addObject("filterErrorMessages", errorList);
         }
 
         mav.setViewName("/top");
