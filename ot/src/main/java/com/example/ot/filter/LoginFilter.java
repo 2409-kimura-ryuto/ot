@@ -1,6 +1,5 @@
 package com.example.ot.filter;
 
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -38,7 +37,7 @@ public class LoginFilter implements Filter {
             //エラーメッセージをセット
             List<String> errorMessages = new ArrayList<>();
             errorMessages.add("ログインしてください");
-            httpSession.setAttribute("errorMessages", errorMessages);
+            httpSession.setAttribute("errorMessagesLoginFilter", errorMessages);
             //ログイン画面にリダイレクト
             httpResponse.sendRedirect("/login");
         }

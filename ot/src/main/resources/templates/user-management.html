@@ -11,7 +11,7 @@
     <!-- エラーメッセージの表示 -->
     <div class="error-messages">
         <ul>
-            <div th:if="${editErrorMessages}" th:each="error : ${editErrorMessages}">
+            <div th:if="${errorMessagesURLValidation}" th:each="error : ${errorMessagesURLValidation}">
                 <li><div th:text="${error}"></div></li>
             </div>
         </ul>

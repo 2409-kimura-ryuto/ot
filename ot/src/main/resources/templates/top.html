@@ -9,10 +9,10 @@
 <body>
 <div class="header-contents">
     <h1>掲示板</h1>
-    <!-- エラーメッセージの表示 -->
+    <!-- 管理者権限フィルターのエラーメッセージ表示 -->
     <div class="error-messages">
         <ul>
-            <div th:if="${errorMessages}" th:each="error : ${errorMessages}">
+            <div th:if="${errorMessagesAdminFilter}" th:each="error : ${errorMessagesAdminFilter}">
                 <li><div th:text="${error}" /></li>
             </div>
         </ul>
@@ -32,11 +32,6 @@
     </div>
     <!-- エラーメッセージの表示 -->
     <div class="error-messages">
-        <ul>
-            <div th:if="${validationError}" th:each="error : ${validationError}">
-                <li><div th:text="${error}"></div></li>
-            </div>
-        </ul>
         <ul>
             <div th:if="${filterErrorMessages}" th:each="error : ${filterErrorMessages}">
                 <li><div th:text="${error}"></div></li>
