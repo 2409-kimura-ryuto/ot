@@ -38,7 +38,7 @@
         (account, password, name, branch_id, department_id, is_stopped)
         VALUES (#{account}, #{password}, #{name}, #{branchId}, #{departmentId}, #{isStopped})
     </insert>
-    
+
     <update id="changeIsStopped">
         UPDATE users
         SET is_stopped = CASE WHEN is_stopped = 0 THEN 1 ELSE 0 END
