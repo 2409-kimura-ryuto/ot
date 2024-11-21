@@ -1,8 +1,8 @@
 package com.example.ot.service;
 
 import com.example.ot.controller.form.BranchForm;
-import com.example.ot.repository.BranchRepository;
-import com.example.ot.repository.entity.Branch;
+import com.example.ot.mapper.BranchMapper;
+import com.example.ot.entity.Branch;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,13 @@ import java.util.List;
 public class BranchService {
 
     @Autowired
-    BranchRepository branchRepository;
+    BranchMapper branchMapper;
 
     /*
      * DBからデータを取得
      */
     public List<BranchForm> findAll() {
-        List<Branch> results = branchRepository.findAll();
+        List<Branch> results = branchMapper.findAll();
         List<BranchForm> branches = setBranchForm(results);
         return branches;
     }

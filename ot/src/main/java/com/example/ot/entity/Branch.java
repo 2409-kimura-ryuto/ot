@@ -1,15 +1,13 @@
-package com.example.ot.repository.entity;
+package com.example.ot.entity;
 
-import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "branches")
 @Getter
+@Setter
 public class Branch {
-
     /*
      * id| name
      * --------------
@@ -19,17 +17,9 @@ public class Branch {
      *  4| C社
      */
 
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column
     private String name;
-
-    @Column(name="created_date")
     private Date createdDate;
-
-    @Column(name="updated_date")
     private Date updatedDate;
+
 }

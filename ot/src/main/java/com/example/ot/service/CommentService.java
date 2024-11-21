@@ -2,10 +2,10 @@ package com.example.ot.service;
 
 import com.example.ot.controller.form.CommentForm;
 import com.example.ot.controller.form.UserCommentForm;
-import com.example.ot.repository.UserCommentRepository;
-import com.example.ot.repository.CommentRepository;
-import com.example.ot.repository.entity.Comment;
-import com.example.ot.repository.entity.UserComment;
+import com.example.ot.mapper.UserCommentMapper;
+import com.example.ot.mapper.CommentMapper;
+import com.example.ot.entity.Comment;
+import com.example.ot.entity.UserComment;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +17,15 @@ import java.util.List;
 public class CommentService {
 
     @Autowired
-    UserCommentRepository userCommentRepository;
+    UserCommentMapper userCommentMapper;
     @Autowired
-    CommentRepository commentRepository;
+    CommentMapper commentMapper;
 
     /*
      * UserCommentを取得
      */
     public List<UserCommentForm> findAllUserComment() {
-        List<UserComment> results = userCommentRepository.findAllUserComment();
+        List<UserComment> results = userCommentMapper.findAllUserComment();
         List<UserCommentForm> comments = setUserCommentForm(results);
         return comments;
     }
@@ -48,7 +48,7 @@ public class CommentService {
      */
     public void saveComment(CommentForm reqComment) {
         Comment saveComment = setCommentsEntity(reqComment);
-        commentRepository.save(saveComment);
+        commentMapper.saveComment(saveComment);
     }
 
     /*
@@ -64,6 +64,6 @@ public class CommentService {
      * レコード削除
      */
     public void deleteComment(Integer id) {
-        commentRepository.deleteById(id);
+        commentMapper.deleteById(id);
     }
 }

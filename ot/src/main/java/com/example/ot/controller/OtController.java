@@ -362,7 +362,7 @@ public class OtController {
         UserForm saveForm = userService.findById(id);
         saveForm.setIsStopped(isStoppedNumber);
         saveForm.setPassword(null);
-        userService.saveUser(saveForm);
+        userService.changeIsStopped(saveForm, id);
         return new ModelAndView("redirect:/user-management");
     }
     /*
@@ -480,7 +480,7 @@ public class OtController {
         }
         // パスワード未入力の場合は、そのまま更新する
         mav.addObject("userForm", userForm);
-        userService.saveUser(userForm);
+        userService.updateUser(userForm);
         mav.setViewName("redirect:/user-management");
         return mav;
     }

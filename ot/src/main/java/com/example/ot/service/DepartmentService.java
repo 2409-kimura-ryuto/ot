@@ -1,8 +1,8 @@
 package com.example.ot.service;
 
 import com.example.ot.controller.form.DepartmentForm;
-import com.example.ot.repository.DepartmentRepository;
-import com.example.ot.repository.entity.Department;
+import com.example.ot.mapper.DepartmentMapper;
+import com.example.ot.entity.Department;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,13 @@ import java.util.List;
 public class DepartmentService {
 
     @Autowired
-    DepartmentRepository departmentRepository;
+    DepartmentMapper departmentMapper;
 
     /*
      * DBからデータを取得
      */
     public List<DepartmentForm> findAll() {
-        List<Department> results = departmentRepository.findAll();
+        List<Department> results = departmentMapper.findAll();
         List<DepartmentForm> departments = setDepartmentForm(results);
         return departments;
     }

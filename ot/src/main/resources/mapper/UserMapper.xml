@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ot.mapper.UserMapper">
+    <resultMap id="user" type="com.example.ot.entity.User">
+        <result column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="branch_id" property="branchId"/>
+        <result column="department_Id" property="departmentId"/>
+        <result column="is_stopped" property="isStopped"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+    </resultMap>
+
+    <select id="findByAccountAndPassword" resultMap="user">
+        SELECT *
+        FROM users
+        WHERE account = #{account}
+        AND password = #{password}
+    </select>
+
+    <select id="findAllByAccount" resultMap="user">
+        SELECT *
+        FROM users
+        WHERE account = #{account}
+    </select>
+
+    <select id="findAllById" resultMap="user">
+        SELECT *
+        FROM users
+        WHERE id = #{id}
+    </select>
+
+    <insert id="saveUser">
+        INSERT INTO users
+        (account, password, name, branch_id, department_id, is_stopped)
+        VALUES (#{account}, #{password}, #{name}, #{branchId}, #{departmentId}, #{isStopped})
+    </insert>
+    
+    <update id="changeIsStopped">
+        UPDATE users
+        SET is_stopped = CASE WHEN is_stopped = 0 THEN 1 ELSE 0 END
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateUser">
+        UPDATE users
+        <set>
+            <if test="account != '' and account != null">
+                account = #{account},
+            </if>
+            <if test="password != '' and upassword != null">
+                password = #{password},
+            </if>
+            <if test="name != '' and name != null">
+                name = #{name},
+            </if>
+            <if test="branchId != '' and branchId != null">
+                branch_id = #{branchId},
+            </if>
+            <if test="departmentId != '' and departmentId != null">
+                department_Id = #{departmentId},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

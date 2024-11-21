@@ -1,34 +1,19 @@
-package com.example.ot.repository.entity;
+package com.example.ot.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.Date;
 
-@Entity
-@Table(name = "comments")
 @Getter
 @Setter
 public class Comment {
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column
     private String text;
-
-    @Column
     private int userId;
-
-    @Column
     private int messageId;
-
-    @Column(name="created_date", insertable = true, updatable = false)
     private Date createdDate;
-
-    @Column(name="updated_date", insertable = true, updatable = true)
     private Date updatedDate;
 
     @PrePersist
@@ -43,4 +28,5 @@ public class Comment {
         Date date = new Date();
         this .setUpdatedDate(date);
     }
+
 }

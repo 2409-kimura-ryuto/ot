@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ot.mapper.UserMessageMapper">
+
+    <resultMap id="userMessage" type="com.example.ot.entity.UserMessage">
+        <result column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="name" property="name"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="text" property="text"/>
+        <result column="category" property="category"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+    </resultMap>
+
+    <select id="findAllUserMessage" resultMap="userMessage">
+        SELECT
+        messages.id AS id,
+        users.account AS account,
+        users.name AS name,
+        users.id AS user_id,
+        messages.title AS title,
+        messages.text AS text,
+        messages.category AS category,
+        messages.created_date AS created_date,
+        messages.updated_date AS updated_date
+        FROM messages
+        INNER JOIN users
+        ON messages.user_id = users.id
+        WHERE messages.created_date BETWEEN #{start} AND #{end}
+        ORDER BY messages.created_date DESC
+    </select>
+
+    <select id="findAllUserMessageByCategory" resultMap="userMessage">
+        SELECT
+        messages.id AS id,
+        users.account AS account,
+        users.name AS name,
+        users.id AS user_id,
+        messages.title AS title,
+        messages.text AS text,
+        messages.category AS category,
+        messages.created_date AS created_date,
+        messages.updated_date AS updated_date
+        FROM messages
+        INNER JOIN users
+        ON messages.user_id = users.id
+        WHERE messages.created_date BETWEEN #{start} AND #{end} AND category LIKE #{category}
+        ORDER BY messages.created_date DESC
+    </select>
+</mapper>

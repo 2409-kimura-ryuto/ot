@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ot.mapper.MessageMapper">
+
+    <resultMap id="message" type="com.example.ot.entity.Message">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="text" property="text"/>
+        <result column="category" property="category"/>
+        <result column="user_id" property="userId"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+    </resultMap>
+
+    <insert id="saveMessage">
+        INSERT INTO messages
+        (title, text, category, user_id)
+        VALUES (#{title}, #{text}, #{category}, #{userId})
+    </insert>
+
+    <delete id="deleteById">
+        DELETE FROM messages
+        WHERE id = #{id}
+    </delete>
+</mapper>

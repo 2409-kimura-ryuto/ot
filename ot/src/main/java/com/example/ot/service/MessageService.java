@@ -2,10 +2,10 @@ package com.example.ot.service;
 
 import com.example.ot.controller.form.MessageForm;
 import com.example.ot.controller.form.UserMessageForm;
-import com.example.ot.repository.MessageRepository;
-import com.example.ot.repository.entity.Message;
-import com.example.ot.repository.UserMessageRepository;
-import com.example.ot.repository.entity.UserMessage;
+import com.example.ot.mapper.MessageMapper;
+import com.example.ot.entity.Message;
+import com.example.ot.mapper.UserMessageMapper;
+import com.example.ot.entity.UserMessage;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +23,9 @@ import java.util.List;
 public class MessageService {
 
     @Autowired
-    UserMessageRepository userMessageRepository;
+    UserMessageMapper userMessageMapper;
     @Autowired
-    MessageRepository messageRepository;
+    MessageMapper messageMapper;
 
     /*
      * UserMessageを取得
@@ -51,11 +51,11 @@ public class MessageService {
             Date startDate = sdFormat.parse(start);
             Date endDate = sdFormat.parse(end);
             if (category.isBlank()) {
-                List<UserMessage> results = userMessageRepository.findAllUserMessage(startDate, endDate);
+                List<UserMessage> results = userMessageMapper.findAllUserMessage(startDate, endDate);
                 messages = setUserMessageForm(results);
 
             } else {
-                List<UserMessage> results = userMessageRepository.findAllUserMessage(startDate, endDate, "%" + category + "%");
+                List<UserMessage> results = userMessageMapper.findAllUserMessageByCategory(startDate, endDate, "%" + category + "%");
                 messages = setUserMessageForm(results);
             }
             return messages;
@@ -95,7 +95,7 @@ public class MessageService {
      */
     public void saveMessage(MessageForm reqMessage) {
         Message saveMessage = setMessagesEntity(reqMessage);
-        messageRepository.save(saveMessage);
+        messageMapper.saveMessage(saveMessage);
     }
 
     /*
@@ -111,6 +111,6 @@ public class MessageService {
      * レコード削除
      */
     public void deleteMessage(Integer id) {
-        messageRepository.deleteById(id);
+        messageMapper.deleteById(id);
     }
 }

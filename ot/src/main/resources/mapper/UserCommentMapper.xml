@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ot.mapper.UserCommentMapper">
+
+    <resultMap id="userComment" type="com.example.ot.entity.UserComment">
+        <result column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="name" property="name"/>
+        <result column="user_id" property="userId"/>
+        <result column="message_id" property="messageId"/>
+        <result column="text" property="text"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+    </resultMap>
+
+    <select id="findAllUserComment" resultMap="userComment">
+        SELECT
+        comments.id AS id,
+        users.account AS account,
+        users.name AS name,
+        users.id AS user_id,
+        comments.message_id AS message_id,
+        comments.text AS text,
+        comments.created_date AS created_date,
+        comments.updated_date AS updated_date
+        FROM comments
+        INNER JOIN users
+        ON comments.user_id = users.id
+        ORDER BY comments.created_date
+    </select>
+</mapper>

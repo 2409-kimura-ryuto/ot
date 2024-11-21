@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ot.mapper.UserInformationMapper">
+
+    <resultMap id="userInformation" type="com.example.ot.entity.UserInformation">
+        <result column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="branch_id" property="branchId"/>
+        <result column="department_Id" property="departmentId"/>
+        <result column="is_stopped" property="isStopped"/>
+        <result column="branch_name" property="branchName"/>
+        <result column="department_name" property="departmentName"/>
+    </resultMap>
+
+    <select id="findAllUserInformationByOrderById" resultMap="userInformation">
+        SELECT
+        users.id AS id,
+        users.account AS account,
+        users.name AS name,
+        users.branch_id AS branch_id,
+        users.department_id AS department_id,
+        users.is_stopped AS is_stopped,
+        branches.name AS branch_name,
+        departments.name AS department_name
+        FROM users
+        INNER JOIN branches
+        ON users.branch_id = branches.id
+        INNER JOIN departments
+        ON users.department_id = departments.id
+        ORDER BY users.id
+    </select>
+</mapper>

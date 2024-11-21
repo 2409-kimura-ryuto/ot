@@ -1,13 +1,13 @@
 package com.example.ot.service;
 
 import com.example.ot.controller.form.UserInformationForm;
-import com.example.ot.repository.UserInformationRepository;
-import com.example.ot.repository.entity.UserInformation;
+import com.example.ot.mapper.UserInformationMapper;
+import com.example.ot.entity.UserInformation;
 import org.springframework.stereotype.Service;
 
 import com.example.ot.controller.form.UserForm;
-import com.example.ot.repository.UserRepository;
-import com.example.ot.repository.entity.User;
+import com.example.ot.mapper.UserMapper;
+import com.example.ot.entity.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,10 +20,10 @@ import static com.example.ot.utils.HashUtil.hashWithSHA256;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    UserMapper userMapper;
 
     @Autowired
-    UserInformationRepository userInformationRepository;
+    UserInformationMapper userInformationMapper;
 
     /*
      * ユーザー情取得処理(ログイン時に使用)
@@ -31,7 +31,7 @@ public class UserService {
     public UserForm findUser(UserForm userForm) throws Exception {
         //パスワードの暗号化
         String encryptPassword = hashWithSHA256(userForm.getPassword());
-        User result = (User) userRepository.findByAccountAndPassword(
+        User result = (User) userMapper.findByAccountAndPassword(
                 userForm.getAccount(),
                 encryptPassword);
         UserForm userFormResult = setUserForm(result);
@@ -41,7 +41,7 @@ public class UserService {
      * ユーザ情取得処理(ユーザ登録時に使用)
      */
     public List<UserForm> findByAccount(String account) {
-        User result = userRepository.findAllByAccount(account);
+        User result = userMapper.findAllByAccount(account);
         List<UserForm> users = new ArrayList<>();
 
         if (result == null) {
@@ -55,7 +55,7 @@ public class UserService {
      * ユーザ情取得処理
      */
     public UserForm findById(Integer id) {
-        User result = (User)userRepository.findById(id).orElse(null);
+        User result = (User)userMapper.findAllById(id);
         UserForm user = setUserForm(result);
         return user;
     }
@@ -73,7 +73,7 @@ public class UserService {
      * UserInformationを全件取得
      */
     public List<UserInformationForm> findAllUserInformation() {
-        List<UserInformation> results = userInformationRepository.findAllUserInformationByOrderById();
+        List<UserInformation> results = userInformationMapper.findAllUserInformationByOrderById();
         List<UserInformationForm> userInformations = setUserInformationForm(results);
         return userInformations;
     }
@@ -104,7 +104,23 @@ public class UserService {
             String encryptPassword = hashWithSHA256(reqUser.getPassword());
             saveUser.setPassword(encryptPassword);
         }
-        userRepository.save(saveUser);
+        userMapper.saveUser(saveUser);
+    }
+
+    /*
+     * 停止状態更新
+     */
+    public void changeIsStopped(UserForm reqUser, Integer id) throws Exception {
+        User saveUser = setUserEntity(reqUser);
+        userMapper.changeIsStopped(saveUser, id);
+    }
+
+    /*
+     * アカウント編集
+     */
+    public void updateUser(UserForm reqUser) throws Exception {
+        User saveUser = setUserEntity(reqUser);
+        userMapper.updateUser(saveUser);
     }
 
     /*
