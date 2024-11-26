@@ -1,6 +1,7 @@
 package com.example.ot.controller;
 
 import com.example.ot.controller.form.*;
+import com.example.ot.repository.entity.User;
 import com.example.ot.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -483,5 +484,23 @@ public class OtController {
         userService.saveUser(userForm);
         mav.setViewName("redirect:/user-management");
         return mav;
+    }
+
+    //①userEdit()のアカウント重複テスト用メソッド
+    public List<String> userTest(List<User> users, UserForm userForm) {
+        List <String> errorList = new ArrayList<>();
+        if (users.size() > 0 && users.get(0).getId() != userForm.getId()) {
+            errorList.add("アカウントが重複しています");
+        }
+        return errorList;
+    }
+
+    //②userEdit()のパスワードのバリデーションテスト用メソッド
+    public List<String> passwordTest(UserForm userForm) {
+        List <String> errorList = new ArrayList<>();
+        if (!userForm.getPassword().isBlank() && !userForm.getPassword().matches("^[a-zA-Z0-9!-/:-@\\[-`{-~]{6,20}+$")) {
+            errorList.add("パスワードは半角文字かつ6文字以上20文字以下で入力してください");
+        }
+        return errorList;
     }
 }
