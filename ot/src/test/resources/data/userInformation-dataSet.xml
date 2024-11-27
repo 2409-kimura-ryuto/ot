@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <users id="1" account="testAccount1" password="testPas1" name="testName1"
+           branch_id="1" department_id="2" is_stopped="0" />
+    <users id="2" account="testAccount2" password="testPas2" name="testName2"
+           branch_id="3" department_id="3" is_stopped="0" />
+
+    <branches id="1" name="本社" />
+    <branches id="2" name="A社" />
+    <branches id="3" name="B社" />
+    <branches id="4" name="C社" />
+
+    <departments id="1" name="総務人事部" />
+    <departments id="2" name="情報管理部" />
+    <departments id="3" name="営業部" />
+    <departments id="4" name="人事部" />
+</dataset>

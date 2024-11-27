@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <users id="1" account="testAccount1" password="testPas1" name="testName1"
+           branch_id="1" department_id="2" is_stopped="0" />
+    <users id="2" account="testAccount2" password="testPas2" name="testName2"
+           branch_id="3" department_id="3" is_stopped="0" />
+</dataset>
