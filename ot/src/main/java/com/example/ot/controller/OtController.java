@@ -16,10 +16,10 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Controller
@@ -72,25 +72,21 @@ public class OtController {
         //バリデーション処理
         List<String> errorList = new ArrayList<String>();
         if (result.hasErrors()) {
-            for (ObjectError error : result.getAllErrors()) {
-                // 特定のエラーのみ取得する
-                if (Objects.equals(error.getDefaultMessage(), "アカウントを入力してください") ||
-                        Objects.equals(error.getDefaultMessage(), "パスワードを入力してください")) {
-                    errorList.add(error.getDefaultMessage());
-                }
-            }
+            //特定のエラーのみ取得する
+            errorList.addAll(result.getAllErrors().stream()
+                    .map(ObjectError::getDefaultMessage)
+                    .filter(msg -> "アカウントを入力してください".equals(msg) ||
+                            "パスワードを入力してください".equals(msg))
+                    .toList());
         }
         if (errorList.size() > 0) {
             mav.addObject("validationError", errorList);
             mav.setViewName("/login");
             return mav;
         }
-        UserForm userData = null;
-        try {
-            userData = userService.findUser(userForm);
-        } catch(RuntimeException e) {
-            userData = null;
-        }
+
+        UserForm userData = Optional.ofNullable(userService.findUser(userForm))
+                .orElse(null);
 
         if ((userData == null) || (userData.getIsStopped() == 1)) {
             errorList.add("ログインに失敗しました");

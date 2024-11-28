@@ -409,3 +409,37 @@ input[type="date"] {
     padding: 10px;
     font-size: 16px;
 }
+
+/* ツールチップのスタイル */
+.tooltip-title {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    z-index: 1000;
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    z-index: 1000;
+}
+
+.tooltip-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    z-index: 1000;
+}

@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/css/style.css}" rel="styleSheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/script.js}"></script>
     <title>新規投稿</title>
 </head>
 <body>
+<div class="tooltip-title">件名は30文字以内で入力してください</div>
+<div class="tooltip-text">本文は1000文字以内で入力してください</div>
+<div class="tooltip-category">カテゴリは10文字以内で入力してください</div>
 <div class="header-contents">
     <h2>新規投稿</h2>
 </div>
 <div class="main-contents">
-    <form th:method="put" th:action="@{/add-message}" th:object="${messageForm}">
+    <form th:method="put" th:action="@{/add-message}" th:object="${messageForm}" id="messageNew">
         <div class="form-area">
             <!-- エラーメッセージの表示 -->
             <div class="error-messages">
@@ -22,7 +26,7 @@
                 </ul>
             </div>
             <div class="form-content">
-                <label for="title">件名</label><br/>
+                <label for="title" id="tooltipTitle">件名</label><br/>
                 <input type="text" th:field="*{title}" id="title" /><br/>
                 <!-- 件名、本文、カテゴリーそれぞれの下にエラーメッセージ表示 -->
                 <div class="error-messages">
@@ -30,14 +34,14 @@
                 </div>
             </div>
             <div class="form-content">
-                <label for="text">本文</label><br/>
+                <label for="text" id="tooltipText">>本文</label><br/>
                 <textarea class="tweet-box-text" th:field="*{text}" size="50" maxlength="1500" id="text" /></textarea><br/>
                 <div class="error-messages">
                     <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></span><br/>
                 </div>
             </div>
             <div class="form-content">
-                <label for="category">カテゴリー</label><br/>
+                <label for="category" id="tooltipCategory">>カテゴリー</label><br/>
                 <input type="text" th:field="*{category}" id="category" /><br/>
                 <div class="error-messages">
                     <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span><br/>
